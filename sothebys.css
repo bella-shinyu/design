@@ -1,0 +1,128 @@
+/* Sotheby's editorial layouts,using the portfolio's shared type and spacing. */
+.sothebys-page{--project-accent:#356A96;--project-highlight:#e4d4ac;--project-tint:#f0f3f6;--sothebys-navy:var(--project-accent);--sothebys-gold-light:var(--project-highlight);--sothebys-surface:var(--project-tint);--orange:var(--project-accent);--bright:var(--project-accent);--tint:var(--project-tint)}/* Shared grey teal carries portfolio navigation; a lighter blue highlights this case study. */
+.sothebys-page .sothebys-wordmark,.sothebys-page .hero h1 .orange,.sothebys-page main .section-heading h2,.sothebys-page main em,.sothebys-page .metrics .metric{color:var(--sothebys-navy)}.sothebys-page main .eyebrow,.sothebys-page main figcaption>span{color:var(--sothebys-navy)}.sothebys-page .sothebys-wordmark small{color:var(--sothebys-navy)}.sothebys-page .label-divider{background:var(--sothebys-gold-light)}.sothebys-page .sothebys-note{border-left-color:var(--sothebys-gold-light)}.sothebys-page .sothebys-principles{border-top-color:var(--sothebys-gold-light);border-bottom-color:var(--sothebys-gold-light)}.sothebys-page .sothebys-strategy h3{border-bottom-color:var(--sothebys-gold-light)}.sothebys-page .sothebys-pullquote blockquote{color:var(--sothebys-navy)}.sothebys-page .sothebys-responsive-media{background:var(--sothebys-surface)}.sothebys-page .sothebys-concept-pair article:last-child .research-visual{border-color:var(--sothebys-navy)}html:has(>body.sothebys-page),body.sothebys-page{overflow-x:clip}.sothebys-wordmark{font-family:Georgia,'Times New Roman',serif;font-size:26px;line-height:1.1;white-space:nowrap}.sothebys-wordmark small{display:block;margin-top:6px;font:7px/1.4 var(--font);letter-spacing:1px}.sothebys-hero-media{margin-top:40px}.sothebys-hero-media>img{display:block;width:100%;aspect-ratio:148/76;object-fit:cover;border-radius:4px}.sothebys-hero-media>figcaption{margin-top:13px;padding:0}.sothebys-note{max-width:720px;margin-top:30px;padding-left:18px;border-left:2px solid var(--line);color:var(--secondary);font-size:13.6px;line-height:1.6}.sothebys-page #challenge{display:grid;grid-template-columns:1fr 1fr;gap:0 64px}.sothebys-page #challenge .section-heading{grid-column:1}.sothebys-page #challenge .body-copy{grid-column:1;margin-top:24px}.sothebys-challenges{grid-column:2;grid-row:1 / span 2;display:block;margin:0;padding:0}.sothebys-challenges article{display:block;padding:24px 0;border-top:1px solid var(--line)}.sothebys-challenges article:first-child{padding-top:0;border:0}.sothebys-page .sothebys-challenges .eyebrow{margin:0}.sothebys-page .sothebys-challenges h3{margin:12px 0;font-size:23px;line-height:1.25}.sothebys-discovery-editorial{margin-top:48px;display:grid;grid-template-columns:1fr 1.3fr;gap:48px;align-items:start}.sothebys-discovery-editorial article:first-child{display:flex;flex-direction:column-reverse}.sothebys-discovery-editorial article:first-child .research-visual{margin-top:28px}.sothebys-discovery-editorial article:last-child{padding-top:48px}.sothebys-page .research-visual{height:auto;display:block;padding:0;background:transparent;overflow:hidden;border-radius:4px}.sothebys-page .research-visual img{display:block;width:100%;height:auto;object-fit:contain;object-position:top}.sothebys-page .research-copy{padding:24px 0 0;background:transparent}.sothebys-discovery-editorial article:first-child .research-copy{padding:0}.sothebys-page .research-copy h3{font-size:23px;line-height:1.25;margin-top:14px}.sothebys-page .research-copy p{margin-top:14px;color:var(--secondary);font-size:14px;line-height:1.6}.sothebys-directions{margin-top:80px}.sothebys-directions .section-line{margin:0 0 28px}.sothebys-concept-pair{display:grid;grid-template-columns:1fr 1fr;gap:32px}.sothebys-concept-pair .research-visual{border:1px solid var(--line)}.sothebys-principles{display:grid;grid-template-columns:1.5fr 1fr;gap:64px;align-items:center;margin-top:80px;padding:40px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.sothebys-pullquote blockquote{margin:22px 0;font-size:28px;line-height:1.3;color:var(--ink)}.sothebys-pullquote p{font-size:14px;color:var(--secondary)}.sothebys-strategy h3{font-size:20px;line-height:1.5;padding:14px 0;border-bottom:1px solid var(--line)}.sothebys-strategy h3:last-child{border:0;padding-bottom:0}.sothebys-strategy h3 br{display:none}.sothebys-feature-media,.sothebys-listing-media{overflow:hidden;border:1px solid var(--line);border-radius:4px}.sothebys-feature-media img,.sothebys-listing-media img{display:block;width:100%;height:auto}.sothebys-responsive-media{display:flex;align-items:center;gap:5%;padding:40px 4%;background:#f1f3f3;border-radius:4px}.sothebys-desktop{display:block;width:76%;height:auto;box-shadow:0 12px 28px rgba(17,17,17,.08)}.sothebys-mobile{display:block;width:19%;height:auto;box-shadow:0 12px 28px rgba(17,17,17,.08)}.sothebys-page .sothebys-experience{margin-top:80px}.sothebys-experience-1>figcaption{display:grid;grid-template-columns:32px 1fr;padding:0 0 28px}.sothebys-experience-1>figcaption>div{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start}.sothebys-page .sothebys-experience figcaption h3{font-size:24px;line-height:1.3}.sothebys-page .sothebys-experience figcaption p{margin-top:14px;font-size:14px;line-height:1.6}.sothebys-page .sothebys-experience-1 figcaption p{margin-top:0}.sothebys-experience-2,.sothebys-experience-4{display:grid;grid-template-columns:1.45fr 1fr;gap:40px;align-items:center}.sothebys-experience-2>figcaption,.sothebys-experience-4>figcaption{display:block;padding:0}.sothebys-experience-2>figcaption>span,.sothebys-experience-4>figcaption>span{display:block;margin-bottom:18px}.sothebys-experience-3{display:grid;grid-template-columns:1fr 1.45fr;gap:40px;align-items:start}.sothebys-experience-3>.sothebys-listing-media{grid-column:2;grid-row:1}.sothebys-experience-3>figcaption{grid-column:1;grid-row:1;display:block;padding:30px 0 0}.sothebys-experience-3>figcaption>span{display:block;margin-bottom:18px}.sothebys-delivery{display:grid;grid-template-columns:160px 1fr;gap:38px;margin-top:80px;padding:32px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.sothebys-delivery p{max-width:680px;color:var(--body);font-size:16px;line-height:1.6}
+@media(max-width:1000px){.sothebys-page #challenge{gap:32px}.sothebys-principles{gap:32px}}
+@media(max-width:760px){html:has(>body.sothebys-page){scroll-padding-top:calc(var(--masthead-height) + 72px)}.sothebys-page .masthead+.page-layout>.sidebar{height:auto}.sothebys-page .masthead{grid-template-columns:1fr auto}.sothebys-page .header-label{display:none}.sothebys-page .project-label{flex-wrap:wrap;row-gap:16px}.sothebys-page .project-label>span:last-child{flex-basis:100%}.sothebys-page .label-divider{display:none}.sothebys-page #challenge .section-heading,.sothebys-page #challenge .body-copy,.sothebys-challenges{grid-column:auto;grid-row:auto}.sothebys-page #challenge .body-copy{margin:0}.sothebys-discovery-editorial article:last-child{padding-top:0}.sothebys-directions,.sothebys-principles{margin-top:56px}.sothebys-concept-pair{gap:40px}.sothebys-responsive-media{padding:24px 3%;gap:4%}.sothebys-desktop{width:72%}.sothebys-mobile{width:24%}.sothebys-page .sothebys-experience{display:flex;flex-direction:column;gap:24px;margin-top:60px;align-items:stretch}.sothebys-page .sothebys-experience>figcaption{display:block;padding:0;order:-1}.sothebys-experience-1>figcaption>div{display:block}.sothebys-page .sothebys-experience-1 figcaption p{margin-top:14px}.sothebys-page .sothebys-experience>figcaption>span{display:block;margin-bottom:14px}.sothebys-delivery{grid-template-columns:1fr;gap:20px;margin-top:60px}
+}
+@media(max-width:640px){.sothebys-page .masthead{-webkit-backdrop-filter:none;backdrop-filter:none}.sothebys-page.menu-open{overflow:hidden}}
+
+.sothebys-note a{color:var(--site-accent);text-decoration:underline;text-underline-offset:3px}
+
+/* Scope counts retain the TWM three-column impact layout. */
+.sothebys-page .metrics{grid-template-columns:repeat(3,minmax(0,1fr))}
+.sothebys-page .metrics .metric{font-size:40px;line-height:1.2;letter-spacing:-.8px}
+.sothebys-reflection-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:40px;padding-top:30px;border-top:1px solid var(--line)}
+.sothebys-reflection-grid h3{margin:16px 0;font-size:23px;line-height:1.3}
+.sothebys-reflection-grid p{font-size:14px;line-height:1.6;color:var(--secondary)}
+@media(max-width:760px){.sothebys-page .metrics .metric{font-size:26px}.sothebys-page .metrics h3{font-size:18px;line-height:1.3}.sothebys-page .metrics p{font-size:12.5px;line-height:1.5}.sothebys-reflection-grid{grid-template-columns:1fr;gap:32px}}
+
+/* Centre the quotation and retain full-width gold rules. */
+.sothebys-page .sothebys-principles{position:relative;border-top:0;border-bottom:0}
+.sothebys-principles::before,.sothebys-principles::after{content:"";position:absolute;left:0;width:100%;height:1px;background:var(--sothebys-gold-light)}
+.sothebys-principles::before{top:0}.sothebys-principles::after{bottom:0}
+.sothebys-pullquote{align-self:stretch;display:flex;align-items:center}
+.sothebys-pullquote blockquote{margin:0;font-weight:400}
+.sothebys-quote-mark{display:block;height:62px;font-family:Georgia,'Times New Roman',serif;font-size:104px;font-weight:400;line-height:1;letter-spacing:-6px}
+.sothebys-pullquote blockquote em{font-style:normal;font-weight:inherit}
+
+/* Extend the strategy column towards the quotation while retaining its right edge. */
+@media(min-width:1001px){.sothebys-strategy{margin-left:-40px}}
+@media(min-width:761px) and (max-width:1000px){.sothebys-strategy{margin-left:-16px}}
+
+/* Problem framing: copy and MacBook above three parallel challenges. */
+.sothebys-page #challenge{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0 48px}
+.sothebys-search-mockup{position:relative;grid-column:2;grid-row:1 / span 2;align-self:center;width:100%;isolation:isolate}
+.sothebys-search-mockup>img{position:relative;z-index:2;display:block;width:100%;height:auto;pointer-events:none}
+.sothebys-mac-screen{position:absolute;z-index:1;left:11.7%;top:11.8%;width:76.6%;height:76.4%;background:#fff;overflow:hidden;border-radius:2% 2% 0 0;display:flex;align-items:center}
+.sothebys-mac-screen video{display:block;width:100%;height:auto}
+.sothebys-page .sothebys-challenges{grid-column:1 / -1;grid-row:3;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin-top:64px}
+.sothebys-page .sothebys-challenges article,.sothebys-page .sothebys-challenges article:first-child{padding:24px 0 0;border-top:1px solid var(--line)}
+@media(max-width:760px){.sothebys-page #challenge{grid-template-columns:minmax(0,1fr);gap:24px}.sothebys-page #challenge .section-heading,.sothebys-page #challenge .body-copy,.sothebys-search-mockup,.sothebys-page .sothebys-challenges{grid-column:1;grid-row:auto}.sothebys-search-mockup{margin-top:8px}.sothebys-page .sothebys-challenges{grid-template-columns:1fr;margin-top:24px}}
+
+/* Enlarge the MacBook and its video together within the right column. */
+@media(min-width:761px){.sothebys-page #challenge{position:relative}.sothebys-search-mockup{position:absolute;bottom:40px;width:130%;justify-self:center;align-self:end}}
+
+/* First design decision: MacBook demonstration followed by numbered caption. */
+.sothebys-page .sothebys-experience-1{display:flex;flex-direction:column;gap:0;margin-top:32px}
+.sothebys-mac-canvas{display:grid;place-items:center;padding:48px 5%;background:var(--sothebys-surface)}
+.sothebys-decision-mac{position:relative;isolation:isolate;width:100%;max-width:1000px}
+.sothebys-decision-mac>img{position:relative;z-index:2;display:block;width:100%;height:auto;pointer-events:none}
+.sothebys-page .sothebys-experience-1>figcaption{display:grid;grid-template-columns:32px minmax(0,1fr);gap:16px;padding:28px 0 0;order:0}
+.sothebys-page .sothebys-experience-1>figcaption>div{display:block}
+.sothebys-page .sothebys-experience-1 figcaption p{margin-top:14px;max-width:720px}
+@media(max-width:760px){.sothebys-mac-canvas{padding:24px 3%}.sothebys-page .sothebys-experience-1>figcaption{grid-template-columns:24px minmax(0,1fr);gap:12px;padding-top:24px}.sothebys-page .sothebys-experience-1>figcaption>span{margin-bottom:0}}
+
+/* Pair the desktop demonstration with a phone in the right foreground. */
+.sothebys-mac-canvas{position:relative;padding-bottom:72px}
+.sothebys-decision-phone{right:6%;bottom:32px;width:21%;max-width:220px;filter:drop-shadow(0 12px 18px rgba(17,17,17,.12))}
+.sothebys-decision-phone .iphone-display video{object-fit:cover;object-position:center}
+@media(max-width:760px){.sothebys-mac-canvas{padding-bottom:40px}.sothebys-decision-phone{right:4%;bottom:16px;width:23%}}
+
+.sothebys-page .sothebys-responsive-media.sothebys-mac-canvas{background:transparent}
+
+.sothebys-feature-media video{display:block;width:100%;height:auto}
+
+.sothebys-listing-media video{display:block;width:100%;height:auto}
+
+/* Restore the original portrait listing frame while retaining the video. */
+.sothebys-listing-media{aspect-ratio:1440/1700;background:var(--sothebys-surface)}
+.sothebys-listing-media video{height:100%;object-fit:cover;object-position:center top}
+
+/* Backend handoff: paired walkthrough and specification frames. */
+.sothebys-api-frames{position:relative;min-width:0;padding-bottom:72px;isolation:isolate}
+.sothebys-api-frames>.sothebys-api-preview:first-child{width:84%}
+.sothebys-api-frames>.sothebys-api-preview:last-child{position:absolute;z-index:2;right:0;bottom:0;width:76%;box-shadow:0 12px 28px rgba(17,17,17,.10)}
+.sothebys-api-preview{min-width:0;overflow:hidden;border:1px solid var(--line);border-radius:4px;background:var(--paper)}
+.sothebys-frame-bar{display:flex;gap:16px;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line);font-size:11px;color:var(--secondary)}
+.sothebys-frame-dots{font-size:8px;letter-spacing:2px;color:var(--site-line-strong)}
+.sothebys-detail-slot,.sothebys-document-slot{aspect-ratio:4/5;overflow:hidden;background:var(--sothebys-surface)}
+.sothebys-detail-slot{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px}
+.sothebys-scroll-arrow{font-size:36px;font-weight:400;color:var(--sothebys-navy)}
+.sothebys-detail-slot p{font-size:13px;color:var(--secondary)}
+.sothebys-document-slot{aspect-ratio:4/3;overflow:auto;background:var(--paper)}
+.sothebys-document-slot img{display:block;width:100%;height:auto}
+.sothebys-page .sothebys-api-collaboration>figcaption{display:block;padding:0}
+.sothebys-api-collaboration figcaption p{max-width:720px}
+.sothebys-page .sothebys-api-collaboration .sothebys-api-source{font-size:12px;color:var(--secondary)}
+@media(max-width:760px){.sothebys-api-frames{padding-bottom:48px}.sothebys-frame-bar{padding:10px 12px;gap:10px}.sothebys-page .sothebys-api-collaboration>figcaption{padding:0}}
+.sothebys-api-frames>.sothebys-api-document-frame:last-child{width:340px;max-width:100%;aspect-ratio:340/225}
+.sothebys-api-document-frame>img{display:block;width:100%;height:100%;object-fit:cover;object-position:center top}
+
+.sothebys-detail-slot video{display:block;width:100%;height:100%;object-fit:cover;object-position:center top}
+
+/* Keep the recorded property content top-aligned beneath a persistent in-frame header. */
+.sothebys-detail-slot{position:relative;display:block;container-type:inline-size}
+.sothebys-demo-header{position:absolute;inset:0 0 auto;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:2cqw;height:6.5cqw;padding:0 4cqw;background:#fff;border-bottom:1px solid var(--line);color:var(--ink);pointer-events:none}
+.sothebys-demo-logo{flex-shrink:0;position:relative;font-family:Georgia,'Times New Roman',serif;font-size:2.2cqw;white-space:nowrap;line-height:1.1}
+.sothebys-demo-logo b{font-weight:400;font-size:2.8cqw}
+.sothebys-demo-logo small{display:block;text-align:right;font: .7cqw/1.4 var(--font);letter-spacing:.12cqw}
+.sothebys-demo-nav,.sothebys-demo-tools{font-size:1.1cqw;white-space:nowrap}
+.sothebys-detail-slot video{width:100%;height:100%;object-fit:cover;object-position:center top}
+
+.sothebys-demo-header-image{position:absolute;top:0;left:0;z-index:2;display:block;width:100%;height:auto;pointer-events:none}
+
+.sothebys-experience-4 .sothebys-feature-media .sothebys-lifestyle-crop{margin-top:-30px;margin-bottom:-30px}
+
+.sothebys-wordmark .sothebys-brand-logo{display:block;height:36px;width:auto;max-width:100%;object-fit:contain}
+
+.sothebys-delivery{border-top:1px solid var(--line);border-bottom:0}
+
+.sothebys-delivery{align-items:start}
+.sothebys-delivery>.eyebrow,.sothebys-delivery>p{align-self:start;margin-top:0}
+
+/* Compensate for the paragraph leading so visible text aligns with the eyebrow. */
+@media(min-width:761px){.sothebys-page .sothebys-delivery>p{margin-top:-4.8px}}
+.sothebys-delivery-devices{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.26fr);gap:32px;align-items:end;margin-top:40px}
+.sothebys-delivery-devices .sothebys-delivery-phone{position:relative;inset:auto;width:100%;aspect-ratio:877/1793}
+@media(max-width:760px){.sothebys-delivery-devices{gap:12px;margin-top:24px}}
+
+.sothebys-delivery-devices .sothebys-mac-screen video{width:100%;height:100%;object-fit:contain;object-position:center}
+
+.sothebys-delivery-devices{width:91%;margin-left:0;margin-right:auto}
+
+.sothebys-delivery-devices{margin-top:0}
+
+/* Requested spacing and scale for problem framing only. */
+.sothebys-page #challenge{margin-top:128px;margin-bottom:128px}
+.sothebys-page #challenge .sothebys-search-mockup{width:80.5%;justify-self:center}
+@media(min-width:761px){.sothebys-page #challenge .sothebys-search-mockup{width:104.65%}}

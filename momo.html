@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/png" href="assets/brand/bubble-b-favicon.png">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Rebuilding momo’s design-token reference into explicit roles, component mappings, and structured definitions as a foundation for AI-assisted design and development.">
+<title>momo — A design-system foundation for AI-assisted work</title>
+<link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="site-colors.css"><link rel="stylesheet" href="momo.css">
+<script src="momo-page.js" defer></script><script src="momo.js" defer></script>
+</head><body class="momo-page">
+<a class="skip" href="#main">Skip to project</a>
+<header class="masthead" id="home"><a class="identity" href="index.html#home">Independent perspective.<br>Human experiences.</a><p class="header-label">Product designer / UI &amp; UX<br>Selected portfolio</p><a class="mobile-contact-link" href="index.html#contact">Let’s contact</a><button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button><nav id="main-nav" aria-label="Main navigation"><a href="index.html#about">About</a><a href="index.html#works">Works</a><a class="nav-darkroom" href="darkroom.html">Darkroom</a><a href="index.html#contact">Let’s contact</a></nav></header>
+
+<div class="page-layout">
+<aside class="sidebar"><a class="back-link" href="index.html#works"><span class="link-arrow" aria-hidden="true">↖</span><span>PROJECT INDEX</span></a><div class="sidebar-inner"><nav aria-label="Project chapters" id="chapter-nav"><a href="#overview" aria-current="location">Overview</a><a href="#impact">Project value</a><a href="#challenge">Before &amp; after</a><a href="#naming">Naming</a><a href="#component">Component</a><a href="#collaboration">Collaboration</a></nav></div></aside>
+<main id="main">
+<section id="overview" class="hero chapter">
+<div class="project-label"><span class="momo-wordmark">momo</span><span class="label-divider"></span><span>Design systems / Foundations for AI-assisted work</span></div>
+<h1>From scattered tokens.<br><span class="orange">To rules AI can follow.</span></h1>
+<p class="subtitle">Connecting values, semantic roles, and component usage to lay the groundwork for AI-assisted design and development.</p>
+<div class="metadata"><div><span class="eyebrow">FOCUS</span><p>Design systems &amp;<br>structured reference design</p></div><div><span class="eyebrow">YEAR</span><p>2026</p></div><div><span class="eyebrow">OUTPUT</span><p>Web reference prototype</p></div><div><span class="eyebrow">CONTRIBUTION</span><p>Token architecture, component mapping<br>&amp; reference experience</p></div></div>
+<div class="intro"><p>AI-assisted interface work needs more than a list of colours and sizes. It needs clear guidance on <strong>which rule to use, where it applies, and how it relates to a component’s state</strong>. The existing Figma variables and front-end appendix contained useful definitions, but these relationships were not consistently structured.</p><p>I rebuilt the reference around reusable roles and explicit component mappings, then made them inspectable in HTML. This creates a clearer basis for people and code-capable AI assistants to interpret the same rules. The delivered prototype establishes that structure; a dedicated AI data interface and generation evaluation are next steps.</p></div>
+
+<figure class="system-screen ai-hero-screen"><div class="momo-macbook"><div class="momo-macbook-screen"><video autoplay muted loop playsinline preload="auto" poster="assets/momo/design-system-walkthrough-poster.jpg" aria-label="Walkthrough of the rebuilt momo design system" width="1920" height="1040"><source src="assets/momo/design-system-walkthrough.mp4" type="video/mp4">Your browser does not support embedded video. <a href="assets/momo/design-system-walkthrough.mp4">Watch the design system walkthrough</a>.</video></div><img src="assets/twm/macbook-mockup.png" width="3944" height="2564" fetchpriority="high" alt="MacBook displaying the rebuilt momo design system"></div></figure>
+</section>
+<section id="impact" class="chapter section-space reveal">
+<div class="summary"><div><span class="eyebrow">CHALLENGE</span><p>Useful definitions existed, but their relationships across values, component use, and states still required interpretation.</p></div><div><span class="eyebrow">STRATEGY</span><p>I connected reusable roles, component references, visual examples, and implementation mappings in one structured HTML reference.</p></div><div><span class="eyebrow">RESULTS</span><p>The rebuilt system makes rules more explicit, reuse more visible, and component choices easier to trace—giving people and source-reading AI assistants a clearer basis to work from.</p></div></div>
+<div class="section-line"><span class="eyebrow">REBUILD OUTCOMES</span><span class="eyebrow">VERIFIED FROM THE HTML DATA</span></div>
+<div class="metrics impact-quantities"><div><span class="metric metric-pop">309</span><h3>Token definitions structured</h3><p>218 primitive and 91 semantic definitions organise values and intent into structured records, helping AI assistants inspect available choices and reference the system’s existing rules.</p></div><div><span class="metric metric-pop">57</span><h3>Usage mappings made explicit</h3><p>57 usage mappings connect components, states, and directions to specific rules, making intended choices explicit so designers, engineers, and AI assistants have less to infer.</p></div><div><span class="metric metric-pop">4</span><h3>Foundations linked to component use</h3><p>Typography, spacing, radius, and shadow include component references that show where shared rules apply, providing a reusable vocabulary for new components and clearer implementation decisions.</p></div></div>
+
+</section>
+<section id="challenge" class="chapter section-space reveal">
+<div class="section-heading"><span class="eyebrow">01 / BEFORE &amp; AFTER</span><h2>Useful definitions.<br><em>Missing connections.</em></h2></div>
+<div class="body-copy"><p>The front-end document provided an important foundation: seven token categories, primitive and semantic definitions, implementation mappings, and usage recommendations. My rebuild extended that work into a reference that explains how the rules relate to components and states.</p><p>For AI-assisted work, the important improvement is the clarity of the relationships. HTML provides an inspectable interface and structured source data; the component mappings explain which rule to choose. Open items also make some unresolved definitions visible.</p></div>
+<figure class="momo-before-after">
+<div class="momo-image-compare" style="--compare-position:72%">
+<img class="compare-after" src="assets/momo/tokens-after.png" width="2940" height="1592" loading="lazy" alt="After: rebuilt momo HTML design system with foundation navigation and visual colour scales">
+<img class="compare-before" src="assets/momo/tokens-before.png" width="2376" height="1550" loading="lazy" alt="Before: front-end colour token document with semantic names, usage descriptions, primitive references, and colour values">
+<span class="compare-label compare-label-before" aria-hidden="true">Before</span><span class="compare-label compare-label-after" aria-hidden="true">After</span>
+<div class="compare-divider" aria-hidden="true"><span class="compare-handle">‹ <span>›</span></span></div>
+<label class="skip" for="momo-compare-range">Before and after image comparison</label>
+<input id="momo-compare-range" class="compare-range" type="range" min="0" max="100" value="72" aria-label="Before and after image comparison" aria-valuetext="72% before, 28% after" aria-describedby="momo-compare-caption">
+</div>
+<figcaption id="momo-compare-caption">Drag to compare the before (left) and after (right) designs.</figcaption>
+</figure>
+
+<div class="rebuild-panels" aria-label="Five problems and corresponding rebuild solutions">
+<article class="rebuild-panel rebuild-panel-before" aria-labelledby="rebuild-before-title">
+<h3 id="rebuild-before-title" class="eyebrow"><span class="rebuild-panel-icon" aria-hidden="true">❌</span>Before</h3>
+<p class="rebuild-panel-intro">The original reference left people and AI assistants to interpret key relationships.</p>
+<ul>
+<li><strong>Interpret inconsistent naming</strong> to distinguish content roles, spacing contexts, and radius usage.</li>
+<li><strong>Infer component choices</strong> when tokens were not explicitly mapped to a component’s state or direction.</li>
+<li><strong>Assemble text styles manually</strong> from separate font size, line height, and weight definitions.</li>
+<li><strong>Reconstruct information from PDF tables</strong> to connect values, purposes, and implementation references.</li>
+<li><strong>Find unresolved decisions in scattered notes</strong>, with a risk of treating provisional rules as complete.</li>
+</ul>
+</article>
+<article class="rebuild-panel rebuild-panel-after" aria-labelledby="rebuild-after-title">
+<h3 id="rebuild-after-title" class="eyebrow"><span class="rebuild-panel-icon" aria-hidden="true">✅</span>What I have done</h3>
+<p class="rebuild-panel-intro">I rebuilt the reference around reusable rules and explicit usage context.</p>
+<ul>
+<li><strong>Standardised naming by role and context</strong>, using body, heading, inset, container, shape, and image groups with descriptions and mappings.</li>
+<li><strong>Created 57 component-reference records</strong> across typography, spacing, radius, and shadow to make intended choices traceable.</li>
+<li><strong>Defined 14 reusable type roles and 24 usage mappings</strong>, separating shared text specifications from component states.</li>
+<li><strong>Structured 309 token definitions in HTML source</strong>, with explicit data fields, visual previews, and implementation context for human review and source-reading AI.</li>
+<li><strong>Surfaced open items and contextual token gaps</strong>, including the missing Chip disabled-background semantic token, so unresolved rules can be identified for review.</li>
+</ul>
+</article>
+</div>
+</section>
+<section id="naming" class="chapter section-space reveal">
+<div class="section-heading"><span class="eyebrow">02 / NAMING</span><h2>A clear structure.<br><em>Shared rules with context.</em></h2></div>
+<div class="body-copy"><p>I organised naming around three questions: how a name expresses purpose, which layer it belongs to, and how the same token can serve different components.</p></div>
+<div class="naming-part naming-architecture">
+<div class="naming-part-heading"><span class="eyebrow">01 / NAMING STRUCTURE</span><h3>Group by purpose.<br>Identify the scale.</h3><p>Semantic names combine a role or context with a numbered tier. The name identifies the family; its description and mapping explain the value and intended use.</p></div>
+<div class="naming-category-video"><video autoplay muted loop playsinline preload="auto" poster="assets/momo/naming-categories-poster.jpg" aria-label="Naming categories and token roles in the rebuilt momo design system" width="1920" height="1272"><source src="assets/momo/naming-categories.mp4" type="video/mp4">Your browser does not support embedded video. <a href="assets/momo/naming-categories.mp4">Watch the naming categories walkthrough</a>.</video></div>
+</div>
+<div class="naming-evidence-pair">
+<figure class="system-screen naming-evidence"><div class="naming-category-video naming-radius-video"><video autoplay muted loop playsinline preload="auto" poster="assets/momo/naming-radius-poster.jpg" aria-label="Radius naming structure and primitive mappings in the rebuilt momo design system" width="1790" height="1120"><source src="assets/momo/naming-radius.mp4" type="video/mp4">Your browser does not support embedded video. <a href="assets/momo/naming-radius.mp4">Watch the radius naming walkthrough</a>.</video></div><figcaption><div><h3>Shared names, explicit meaning</h3><p>In the rebuilt reference, shape and image names sit alongside their values, descriptions, and primitive mappings.</p></div></figcaption></figure>
+<figure class="system-screen naming-shared-evidence"><div class="naming-category-video naming-shared-video"><video autoplay muted loop playsinline preload="auto" poster="assets/momo/naming-shared-tokens-poster.jpg" aria-label="Shared token references in the rebuilt momo design system" width="1844" height="1100"><source src="assets/momo/naming-shared-tokens.mp4" type="video/mp4">Your browser does not support embedded video. <a href="assets/momo/naming-shared-tokens.mp4">Watch the shared tokens walkthrough</a>.</video></div><figcaption><div><h3>Define once, reuse in context</h3><p>In the rebuilt reference, components share semantic tokens, while their direction and usage stay documented in the reference layer.</p></div></figcaption></figure>
+</div>
+<div class="naming-part naming-layers">
+<div class="system-layer-story"><div><h3>Three layers answer three different questions</h3><p>I separated raw values, reusable meaning, and actual component use. Typography, spacing, radius, and shadow include a component-reference layer, while colour, motion, and z-index currently expose primitive and semantic layers.</p></div><ol><li><span>PRIMITIVE</span><h4>What is the underlying value?</h4><p>Colour ramps, font sizes, a 4px spacing grid, radius values, and shadow definitions establish the available scale.</p></li><li><span>SEMANTIC</span><h4>What purpose does it serve?</h4><p>Text roles, inset and container spacing, shape and image radius, and elevation names give values a reusable meaning.</p></li><li><span>COMPONENT REFERENCE</span><h4>Where is the token used?</h4><p>Reference tables connect components and states to their typography, horizontal and vertical padding, radius, and elevation choices.</p></li></ol></div>
+</div>
+</section>
+<section id="component" class="chapter section-space reveal">
+<div class="section-heading"><span class="eyebrow">03 / COMPONENT</span><h2>Document the choice.<br><em>Reduce the guesswork.</em></h2></div>
+<div class="body-copy"><p>I created 57 component-reference records across typography, spacing, radius, and shadow. They connect reusable rules to specific components, states, and directions.</p></div>
+<figure class="system-screen"><div class="naming-category-video component-spacing-reference component-spacing-video"><video autoplay muted loop playsinline preload="auto" poster="assets/momo/component-spacing-poster.jpg" aria-label="Component-reference mappings for shared spacing tokens in the rebuilt momo design system" width="1920" height="1040"><source src="assets/momo/component-spacing.mp4" type="video/mp4">Your browser does not support embedded video. <a href="assets/momo/component-spacing.mp4">Watch the component spacing walkthrough</a>.</video></div></figure>
+<div id="type-roles" class="chapter-subsection reveal">
+<div class="reference-split">
+<div class="reference-split-copy">
+<div class="section-heading"><h2>Define the style once.<br><em>Reuse it across components.</em></h2></div>
+<div class="body-copy"><p>I combined font size, line height, and weight into 14 reusable text roles, supported by 24 usage mappings. Components share a style while their states remain documented separately.</p></div>
+
+
+</div>
+<figure class="system-screen reference-split-media"><div class="naming-category-video typography-roles-video"><video autoplay muted loop playsinline preload="auto" poster="assets/momo/typography-roles-poster.jpg" aria-label="Typography roles and component mappings in the rebuilt momo design system" width="1920" height="1112"><source src="assets/momo/typography-roles.mp4" type="video/mp4">Your browser does not support embedded video. <a href="assets/momo/typography-roles.mp4">Watch the typography roles walkthrough</a>.</video></div></figure>
+</div>
+
+</div>
+<div id="ai-foundation" class="chapter-subsection reveal">
+<div class="reference-split">
+<div class="reference-split-copy">
+<div class="section-heading"><h2>Make the rules inspectable.<br><em>For people and AI.</em></h2></div>
+<div class="body-copy"><p>I organised 309 token definitions in HTML source records with fields such as token, base, and value. Component records add state or direction where relevant. A code-capable AI assistant can inspect these relationships without reconstructing PDF tables.</p></div>
+
+
+</div>
+<figure class="system-screen reference-split-media"><div class="naming-category-video engineer-view-video"><video autoplay muted loop playsinline preload="auto" poster="assets/momo/engineer-view-poster.jpg" aria-label="Engineer view of colour roles, primitive references, and CSS variables in the rebuilt momo design system" width="1920" height="1112"><source src="assets/momo/engineer-view.mp4" type="video/mp4">Your browser does not support embedded video. <a href="assets/momo/engineer-view.mp4">Watch the engineer view walkthrough</a>.</video></div></figure>
+</div>
+
+
+<details id="system" class="momo-optional-demo"><summary>Try the portfolio lookup demo</summary><p class="momo-note">This separate search demo uses selected definitions from the original front-end appendix. It is not connected to Figma or an AI pipeline.</p>
+<div class="token-explorer"><div class="explorer-header"><div><span class="momo-wordmark">momo</span><span>Token reference</span></div><span class="excerpt-label">PORTFOLIO DEMO / SELECTED RECORDS</span></div><div class="explorer-controls"><div class="search-field"><label for="token-search">Search tokens</label><input id="token-search" type="search" placeholder="Try primary, 16px, shadow or p-4" autocomplete="off"></div><div class="filter-field"><label for="token-category">Foundation</label><select id="token-category"><option value="all">All foundations</option><option>Colour</option><option>Typography</option><option>Spacing</option><option>Radius</option><option>Shadow</option><option>Motion</option><option>Z-index</option></select></div></div><div class="explorer-body"><div class="token-results"><p id="token-count" role="status" aria-live="polite"></p><div id="token-list" aria-label="Matching tokens"></div></div><aside id="token-detail" class="token-detail" aria-label="Selected token details"></aside></div><div class="explorer-footer">Source: front-end web appendix · February 2026 · Mappings shown where documented</div></div>
+
+</details>
+</div>
+</section>
+<section id="collaboration" class="chapter section-space reveal">
+<div class="section-heading"><span class="eyebrow">04 / COLLABORATION</span><h2>Shared rules.<br><em>A clearer foundation to build on.</em></h2></div>
+<div class="body-copy"><p>I brought unresolved items into the overview and added contextual gap notices on component pages. Missing definitions can be identified for review rather than silently treated as complete.</p></div>
+<figure class="system-screen"><div class="naming-category-video collaboration-components-video"><video autoplay muted loop playsinline preload="auto" poster="assets/momo/collaboration-components-poster.jpg" aria-label="Component states and open token decisions in the rebuilt momo design system" width="1920" height="1236"><source src="assets/momo/collaboration-components.mp4" type="video/mp4">Your browser does not support embedded video. <a href="assets/momo/collaboration-components.mp4">Watch the component collaboration walkthrough</a>.</video></div></figure>
+<div id="reflection" class="chapter-subsection reveal">
+
+<div class="stakeholder-value"><article><span class="eyebrow">PM</span><h3>Clarify the remaining work</h3><p>Use visible coverage and open decisions to discuss scope and review priorities.</p></article><article><span class="eyebrow">DESIGNER</span><h3>Reuse consistent choices</h3><p>Select shared roles and compare their application across components and states.</p></article><article><span class="eyebrow">ENGINEER</span><h3>Trace the intended rule</h3><p>Follow component mappings and implementation references instead of reconstructing the specification.</p></article></div>
+
+
+</div>
+</section>
+</main></div>
+<section class="next-project reveal" aria-labelledby="next-project-title"><div class="next-project-inner"><div class="next-project-heading"><h2 id="next-project-title" class="eyebrow">NEXT PROJECT</h2><span class="next-project-arrow" aria-hidden="true">↗</span></div><div class="next-project-grid"><a class="marquee-card card-twm" href="twm.html"><div class="marquee-visual"><img src="assets/figma-home/twm.png" alt="Taiwan Mobile website redesign shown on a laptop" loading="lazy"></div><span>Taiwan Mobile</span></a><a class="marquee-card card-sothebys" href="sothebys.html"><div class="marquee-visual"><img src="assets/figma-home/sothebys.png" alt="Sotheby’s real-estate website displayed on a laptop" loading="lazy"></div><span>Sotheby’s</span></a></div></div></section>
+<footer class="contact portfolio-footer" id="contact"><div class="footer-contact-grid"><p class="footer-opportunity">For product design opportunities<br>and thoughtful collaborations.</p><div class="footer-links"><span class="label">A conversation is a good beginning.</span><a class="footer-contact-link" href="mailto:shinyutsai.bella@gmail.com"><span>shinyutsai.bella@gmail.com</span><b aria-hidden="true">↗</b></a><a class="footer-contact-link" href="https://drive.google.com/file/d/1ym1QPSFTgxXs2AQK4y-voWeJMAgdvfar/view?usp=drive_link" target="_blank" rel="noopener noreferrer"><span>resume</span><b aria-hidden="true">↗</b></a><a class="footer-contact-link" href="https://www.linkedin.com/in/bella-tsai-1614b9202" target="_blank" rel="noopener noreferrer"><span>linkedin</span><b aria-hidden="true">↗</b></a></div></div><div class="footer-bottom"><span>Bella Tsai | UK</span><span>Research · Strategy · Design</span><a href="#home">Back to top ↑</a></div></footer>
+</body>
+</html>

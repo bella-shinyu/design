@@ -1,0 +1,71 @@
+/* Shared portfolio identity. Project accents remain in their own stylesheets. */
+:root{
+  --site-paper:#FFFFFF;
+  --site-ink:#111111;
+  --site-body:#404040;
+  --site-secondary:#7A7A82;
+  --site-line:#EBEBEB;
+  --site-line-strong:#9D9D98;
+  --site-surface:#E0E0E0;
+  --site-placeholder:#D9D9D9;
+  --site-line-inverse:rgba(255,255,255,.28);
+  --site-accent:#4F6F6A;
+  --site-accent-hover:#3D5753;
+  --site-accent-soft:#EAF5F5;
+  --home-experience:#EAF5F5;
+  --home-works:#E8E7E2;
+  --home-roll:#FFDADA;
+  --project-accent:#E96E17;
+  --project-highlight:#E96E17;
+  --project-tint:#E0E0E0;
+  --paper:var(--site-paper);
+  --ink:var(--site-ink);
+  --body:var(--site-body);
+  --secondary:var(--site-secondary);
+  --muted:var(--site-secondary);
+  --line:var(--site-line);
+  --card:var(--site-surface);
+  --placeholder:var(--site-placeholder);
+  --blue:var(--home-experience);
+  --stone:var(--home-works);
+}
+body .masthead nav a:hover,
+body .masthead nav a:focus-visible,
+body #chapter-nav a:hover,
+body #chapter-nav a[aria-current],
+body #chapter-nav a[aria-current] span,
+body .filters button.active{color:var(--site-accent)}
+body .masthead nav a:after{background:var(--site-accent)}
+body .filters button:hover{color:var(--site-accent-hover)}
+body .text-link,body .footer-project-link{color:var(--site-accent);border-color:var(--site-accent)}
+body .underlined-link{color:var(--site-accent);border-color:var(--site-accent)}
+body .text-link:hover,body .footer-project-link:hover,
+body .underlined-link:hover,body .back-link:hover,
+body .email-link:hover,body .footer-bottom a:hover{color:var(--site-accent-hover)}
+body .chapter>.section-heading>.eyebrow,
+body .metadata .eyebrow{color:var(--site-accent)}
+body .progress-track span,
+body .dots button.active:before,
+body .story-scrollbar-track i,
+body .story-scrollbar button.active:after,
+body .task-progress span.active{background:var(--site-accent)}
+body button:focus-visible,body a:focus-visible{outline:2px solid var(--site-accent);outline-offset:5px}
+body .experience-table,body .experience-table article{border-color:var(--site-line-strong)}
+body .filters button{color:var(--site-secondary)}
+body main::before{background:var(--home-roll)}
+body .work-card{background:var(--site-line)}
+body .contact,body .email-link,body .footer-bottom{border-color:var(--site-line)}
+body .contact{background:var(--site-paper);color:var(--site-ink)}
+body .next-project-media{background:var(--site-surface)}
+body .next-project-link:hover .next-project-arrow{color:var(--site-accent-hover)}
+body .sidebar .eyebrow{color:var(--site-accent)}
+body .portfolio-footer{background:var(--site-ink);color:var(--site-paper);border-top-color:var(--site-ink)}
+body .portfolio-footer .email-link,
+body .portfolio-footer .footer-bottom{border-color:var(--site-line-inverse)}
+body .portfolio-footer .email-link:hover,
+body .portfolio-footer .footer-bottom a:hover{color:var(--site-accent-soft)}
+::selection{background:var(--site-accent-soft);color:var(--site-ink)}
+
+/* Hide project navigation throughout next-project and footer content. */
+.sidebar{transition:opacity .2s ease}
+.sidebar.is-past-project{visibility:hidden;opacity:0;pointer-events:none}

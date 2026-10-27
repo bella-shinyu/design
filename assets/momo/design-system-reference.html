@@ -1,0 +1,1919 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>momo Design System · Design Tokens</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js" crossorigin></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js" crossorigin></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.24.7/babel.min.js" crossorigin></script>
+<style>
+  :root {
+    --ink: #1A1A1A; --text: #404040; --muted: #767676; --line: #E6E6E6; --line-soft: #F0F0F0;
+    --accent: #D62872;
+    --mono: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: #fff; }
+  body { -webkit-font-smoothing: antialiased; color: var(--ink);
+    font-family: "Microsoft JhengHei", "PingFang TC", "Noto Sans TC", system-ui, sans-serif; }
+  #root { min-height: 100vh; }
+  button { font-family: inherit; }
+  ::selection { background: #FBE9F1; }
+  button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, a:focus-visible {
+    outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px;
+  }
+  .nav-item { transition: background .15s; }
+  .nav-item:hover { background: #F0F0F0; }
+  .nav-item[aria-current="page"] { background: #EFEFEF; color: var(--ink); font-weight: 600; box-shadow: inset 2px 0 0 var(--accent); }
+  .seg-btn { transition: background .15s, color .15s; }
+  .app-content::-webkit-scrollbar, .app-nav::-webkit-scrollbar { width: 8px; height: 8px; }
+  .app-content::-webkit-scrollbar-thumb, .app-nav::-webkit-scrollbar-thumb { background: #D9D9D9; border-radius: 4px; }
+  @media (max-width: 860px) {
+    .app-shell { flex-direction: column !important; height: auto !important; min-height: 100vh; }
+    .app-sidebar { width: 100% !important; border-right: none !important; border-bottom: 1px solid var(--line); }
+    .app-nav { display: flex !important; flex-direction: row !important; gap: 4px; overflow-x: auto !important; padding: 4px 12px 10px !important; }
+    .app-nav > div { display: contents; }
+    .app-nav-label, .app-sidebar-foot { display: none !important; }
+    .nav-item { width: auto !important; white-space: nowrap; }
+    .app-main { overflow: visible !important; }
+    .app-topbar { padding: 0 16px !important; }
+    .app-content { padding: 24px 16px 56px !important; overflow: visible !important; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition: none !important; animation: none !important; }
+  }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel" data-presets="react" data-type="module">
+
+const { useState, useEffect, useCallback } = React;
+
+
+// ─── TOKEN DATA ──────────────────────────────────────────────────────────────
+const INITIAL_TOKENS = {
+  color: {
+    primitive: [
+      { token: "gray-10", value: "#F4F4F4", group: "Gray" },
+      { token: "gray-20", value: "#E0E0E0", group: "Gray" },
+      { token: "gray-30", value: "#C6C6C6", group: "Gray" },
+      { token: "gray-40", value: "#A8A8A8", group: "Gray" },
+      { token: "gray-50", value: "#8D8D8D", group: "Gray" },
+      { token: "gray-60", value: "#6F6F6F", group: "Gray" },
+      { token: "gray-70", value: "#525252", group: "Gray" },
+      { token: "gray-80", value: "#393939", group: "Gray" },
+      { token: "gray-90", value: "#262626", group: "Gray" },
+      { token: "gray-100", value: "#161616", group: "Gray" },
+      { token: "pink-10", value: "#FCECF3", group: "Pink (brand primary)" },
+      { token: "pink-20", value: "#F5CBDD", group: "Pink (brand primary)" },
+      { token: "pink-30", value: "#ED9FC0", group: "Pink (brand primary)" },
+      { token: "pink-40", value: "#E46C9F", group: "Pink (brand primary)" },
+      { token: "pink-50", value: "#DB3F81", group: "Pink (brand primary)" },
+      { token: "pink-60", value: "#BB2364", group: "Pink (brand primary)" },
+      { token: "pink-70", value: "#8A1A4A", group: "Pink (brand primary)" },
+      { token: "pink-80", value: "#601233", group: "Pink (brand primary)" },
+      { token: "pink-90", value: "#400C22", group: "Pink (brand primary)" },
+      { token: "pink-100", value: "#250714", group: "Pink (brand primary)" },
+      { token: "red-10", value: "#FCECEC", group: "Red" },
+      { token: "red-20", value: "#F7C9C9", group: "Red" },
+      { token: "red-30", value: "#F09C9C", group: "Red" },
+      { token: "red-40", value: "#E86868", group: "Red" },
+      { token: "red-50", value: "#E13939", group: "Red" },
+      { token: "red-60", value: "#C01E1E", group: "Red" },
+      { token: "red-70", value: "#8E1616", group: "Red" },
+      { token: "red-80", value: "#630F0F", group: "Red" },
+      { token: "red-90", value: "#420A0A", group: "Red" },
+      { token: "red-100", value: "#260606", group: "Red" },
+      { token: "orangeRed-10", value: "#FCEFEC", group: "OrangeRed" },
+      { token: "orangeRed-20", value: "#F8D2C8", group: "OrangeRed" },
+      { token: "orangeRed-30", value: "#F2AC9A", group: "OrangeRed" },
+      { token: "orangeRed-40", value: "#EB8065", group: "OrangeRed" },
+      { token: "orangeRed-50", value: "#E55935", group: "OrangeRed" },
+      { token: "orangeRed-60", value: "#C53C19", group: "OrangeRed" },
+      { token: "orangeRed-70", value: "#912C13", group: "OrangeRed" },
+      { token: "orangeRed-80", value: "#651F0D", group: "OrangeRed" },
+      { token: "orangeRed-90", value: "#431509", group: "OrangeRed" },
+      { token: "orangeRed-100", value: "#270C05", group: "OrangeRed" },
+      { token: "brown-10", value: "#FDF6EB", group: "Brown" },
+      { token: "brown-20", value: "#FAE5C6", group: "Brown" },
+      { token: "brown-30", value: "#F5D097", group: "Brown" },
+      { token: "brown-40", value: "#F0B760", group: "Brown" },
+      { token: "brown-50", value: "#EBA02F", group: "Brown" },
+      { token: "brown-60", value: "#CB8213", group: "Brown" },
+      { token: "brown-70", value: "#96600E", group: "Brown" },
+      { token: "brown-80", value: "#68430A", group: "Brown" },
+      { token: "brown-90", value: "#452C07", group: "Brown" },
+      { token: "brown-100", value: "#281A04", group: "Brown" },
+      { token: "orange-10", value: "#FFF6E9", group: "Orange" },
+      { token: "orange-20", value: "#FFE4C1", group: "Orange" },
+      { token: "orange-30", value: "#FFCE8D", group: "Orange" },
+      { token: "orange-40", value: "#FFB451", group: "Orange" },
+      { token: "orange-50", value: "#FF9D1B", group: "Orange" },
+      { token: "orange-60", value: "#DE7E00", group: "Orange" },
+      { token: "orange-70", value: "#A45D00", group: "Orange" },
+      { token: "orange-80", value: "#724100", group: "Orange" },
+      { token: "orange-90", value: "#4C2B00", group: "Orange" },
+      { token: "orange-100", value: "#2C1900", group: "Orange" },
+      { token: "amber-10", value: "#FFFAE9", group: "Amber" },
+      { token: "amber-20", value: "#FFF2C1", group: "Amber" },
+      { token: "amber-30", value: "#FFE68D", group: "Amber" },
+      { token: "amber-40", value: "#FFD951", group: "Amber" },
+      { token: "amber-50", value: "#FFCE1B", group: "Amber" },
+      { token: "amber-60", value: "#DEAE00", group: "Amber" },
+      { token: "amber-70", value: "#A48100", group: "Amber" },
+      { token: "amber-80", value: "#725900", group: "Amber" },
+      { token: "amber-90", value: "#4C3C00", group: "Amber" },
+      { token: "amber-100", value: "#2C2300", group: "Amber" },
+      { token: "yellow-10", value: "#FFFDE9", group: "Yellow" },
+      { token: "yellow-20", value: "#FFF9C1", group: "Yellow" },
+      { token: "yellow-30", value: "#FFF38D", group: "Yellow" },
+      { token: "yellow-40", value: "#FFED51", group: "Yellow" },
+      { token: "yellow-50", value: "#FFE81B", group: "Yellow" },
+      { token: "yellow-60", value: "#DEC700", group: "Yellow" },
+      { token: "yellow-70", value: "#A49300", group: "Yellow" },
+      { token: "yellow-80", value: "#726600", group: "Yellow" },
+      { token: "yellow-90", value: "#4C4400", group: "Yellow" },
+      { token: "yellow-100", value: "#2C2800", group: "Yellow" },
+      { token: "lightGreen-10", value: "#EDFBED", group: "LightGreen" },
+      { token: "lightGreen-20", value: "#CDF3CD", group: "LightGreen" },
+      { token: "lightGreen-30", value: "#A4EAA2", group: "LightGreen" },
+      { token: "lightGreen-40", value: "#74DE72", group: "LightGreen" },
+      { token: "lightGreen-50", value: "#49D446", group: "LightGreen" },
+      { token: "lightGreen-60", value: "#2CB42A", group: "LightGreen" },
+      { token: "lightGreen-70", value: "#21851F", group: "LightGreen" },
+      { token: "lightGreen-80", value: "#175D15", group: "LightGreen" },
+      { token: "lightGreen-90", value: "#0F3E0E", group: "LightGreen" },
+      { token: "lightGreen-100", value: "#092408", group: "LightGreen" },
+      { token: "oliveGreen-10", value: "#F6F8F0", group: "OliveGreen" },
+      { token: "oliveGreen-20", value: "#E6ECD4", group: "OliveGreen" },
+      { token: "oliveGreen-30", value: "#D1DCB0", group: "OliveGreen" },
+      { token: "oliveGreen-40", value: "#B9C987", group: "OliveGreen" },
+      { token: "oliveGreen-50", value: "#A4B862", group: "OliveGreen" },
+      { token: "oliveGreen-60", value: "#859945", group: "OliveGreen" },
+      { token: "oliveGreen-70", value: "#627133", group: "OliveGreen" },
+      { token: "oliveGreen-80", value: "#444F23", group: "OliveGreen" },
+      { token: "oliveGreen-90", value: "#2E3418", group: "OliveGreen" },
+      { token: "oliveGreen-100", value: "#1A1E0E", group: "OliveGreen" },
+      { token: "teal-10", value: "#ECFAFC", group: "Teal" },
+      { token: "teal-20", value: "#CBF2F5", group: "Teal" },
+      { token: "teal-30", value: "#9FE7ED", group: "Teal" },
+      { token: "teal-40", value: "#6CDBE4", group: "Teal" },
+      { token: "teal-50", value: "#3FCFDB", group: "Teal" },
+      { token: "teal-60", value: "#23B0BB", group: "Teal" },
+      { token: "teal-70", value: "#1A828A", group: "Teal" },
+      { token: "teal-80", value: "#125A60", group: "Teal" },
+      { token: "teal-90", value: "#0C3C40", group: "Teal" },
+      { token: "teal-100", value: "#072325", group: "Teal" },
+      { token: "blue-10", value: "#EBF4FD", group: "Blue" },
+      { token: "blue-20", value: "#C6E1FA", group: "Blue" },
+      { token: "blue-30", value: "#97C8F5", group: "Blue" },
+      { token: "blue-40", value: "#60AAF0", group: "Blue" },
+      { token: "blue-50", value: "#2F90EB", group: "Blue" },
+      { token: "blue-60", value: "#1372CB", group: "Blue" },
+      { token: "blue-70", value: "#0E5496", group: "Blue" },
+      { token: "blue-80", value: "#0A3B68", group: "Blue" },
+      { token: "blue-90", value: "#072745", group: "Blue" },
+      { token: "blue-100", value: "#041728", group: "Blue" },
+      { token: "brightBlue-10", value: "#E9F1FF", group: "BrightBlue" },
+      { token: "brightBlue-20", value: "#C1D8FF", group: "BrightBlue" },
+      { token: "brightBlue-30", value: "#8DB7FF", group: "BrightBlue" },
+      { token: "brightBlue-40", value: "#5191FF", group: "BrightBlue" },
+      { token: "brightBlue-50", value: "#1B6FFF", group: "BrightBlue" },
+      { token: "brightBlue-60", value: "#0052DE", group: "BrightBlue" },
+      { token: "brightBlue-70", value: "#003CA4", group: "BrightBlue" },
+      { token: "brightBlue-80", value: "#002A72", group: "BrightBlue" },
+      { token: "brightBlue-90", value: "#001C4C", group: "BrightBlue" },
+      { token: "brightBlue-100", value: "#00102C", group: "BrightBlue" },
+      { token: "moplus-10", value: "#F1F2F7", group: "mo Store+" },
+      { token: "moplus-20", value: "#D9DBE7", group: "mo Store+" },
+      { token: "moplus-30", value: "#B8BDD4", group: "mo Store+" },
+      { token: "moplus-40", value: "#939BBD", group: "mo Store+" },
+      { token: "moplus-50", value: "#727CA8", group: "mo Store+" },
+      { token: "moplus-60", value: "#545E8A", group: "mo Store+" },
+      { token: "moplus-70", value: "#3E4666", group: "mo Store+" },
+      { token: "moplus-80", value: "#2B3047", group: "mo Store+" },
+      { token: "moplus-90", value: "#1D202F", group: "mo Store+" },
+      { token: "moplus-100", value: "#11131B", group: "mo Store+" },
+      { token: "white", value: "#FFFFFF", group: "White" },
+      { token: "special-coupon-bg", value: "#FB4343", group: "Special" },
+      { token: "special-eco", value: "#9BC700", group: "Special" },
+      { token: "special-momo-logo", value: "#EA27C2", group: "Special" },
+      { token: "special-button-bg", value: "#E9EFF7", group: "Special" },
+      { token: "special-bg", value: "#F5FBE1", group: "Special" },
+      { token: "special-single-coupon-bg", value: "#B9004F", group: "Special" },
+    ],
+    semantic: [
+      { token: "text-color-primary", base: "gray-80", value: "#393939", usage: "Primary text; standard body text color", css: "--text-color-primary" },
+      { token: "text-color-secondary", base: "gray-50", value: "#8D8D8D", usage: "Secondary text; supporting description text", css: "--text-color-secondary" },
+      { token: "text-color-tertiary", base: "gray-60", value: "#6F6F6F", usage: "Tertiary text (contrast exceeds WCAG AA on the new scale)", css: "--text-color-tertiary" },
+      { token: "text-color-disabled", base: "gray-10", value: "#F4F4F4", usage: "Disabled text", css: "--text-color-disabled" },
+      { token: "text-color-on-dark", base: "white", value: "#FFFFFF", usage: "White text on dark backgrounds", css: "--text-color-on-dark" },
+      { token: "text-color-error", base: "red-60", value: "#C01E1E", usage: "Error text; references status-color-error as the single source", css: "--text-color-error" },
+      { token: "text-color-link", base: "blue-50", value: "#2F90EB", usage: "Hyperlink text", css: "--text-color-link" },
+      { token: "bg-color-white", base: "white", value: "#FFFFFF", usage: "Primary white background", css: "--bg-color-white" },
+      { token: "bg-color-light-grey", base: "gray-10", value: "#F4F4F4", usage: "Light gray background", css: "--bg-color-light-grey" },
+      { token: "bg-color-surface", base: "gray-10", value: "#F4F4F4", usage: "Base page background (ground)", css: "--bg-color-surface" },
+      { token: "border-color", base: "gray-10", value: "#F4F4F4", usage: "Default border color", css: "--border-color" },
+      { token: "border-color-divider", base: "gray-10", value: "#F4F4F4", usage: "Divider color", css: "--border-color-divider" },
+      { token: "button-color-primary", base: "pink-50", value: "#DB3F81", usage: "Primary action button (brand pink)", css: "--button-color-primary" },
+      { token: "button-color-primary-pressed", base: "pink-60", value: "#BB2364", usage: "Primary button pressed state", css: "--button-color-primary-pressed" },
+      { token: "button-color-secondary", base: "gray-20", value: "#E0E0E0", usage: "Secondary action button (gray)", css: "--button-color-secondary" },
+      { token: "button-color-secondary-pressed", base: "gray-40", value: "#A8A8A8", usage: "Secondary button pressed state", css: "--button-color-secondary-pressed" },
+      { token: "button-color-notify", base: "orange-50", value: "#FF9D1B", usage: "Notify-me button for items not yet orderable (orange)", css: "--button-color-notify" },
+      { token: "button-color-notify-pressed", base: "orange-60", value: "#DE7E00", usage: "Notify button pressed state", css: "--button-color-notify-pressed" },
+      { token: "button-color-cart", base: "blue-60", value: "#1372CB", usage: "Add to cart button (blue)", css: "--button-color-cart" },
+      { token: "button-color-cart-pressed", base: "blue-70", value: "#0E5496", usage: "Add to cart button pressed state", css: "--button-color-cart-pressed" },
+      { token: "button-color-activity", base: "oliveGreen-60", value: "#859945", usage: "Go to campaign page button (olive green)", css: "--button-color-activity" },
+      { token: "button-color-activity-pressed", base: "oliveGreen-70", value: "#627133", usage: "Campaign page button pressed state", css: "--button-color-activity-pressed" },
+      { token: "icon-color", base: "gray-60", value: "#6F6F6F", usage: "Default icon color", css: "--icon-color" },
+      { token: "status-color-error", base: "red-60", value: "#C01E1E", usage: "Error and alert state (single source)", css: "--status-color-error" },
+      { token: "status-color-error-bg", base: "red-10", value: "#FCECEC", usage: "Error message background", css: "--status-color-error-bg" },
+      { token: "status-color-warning", base: "orange-50", value: "#FF9D1B", usage: "Warning state", css: "--status-color-warning" },
+      { token: "status-color-warning-bg", base: "orange-10", value: "#FFF6E9", usage: "Warning background", css: "--status-color-warning-bg" },
+      { token: "status-color-success", base: "lightGreen-70", value: "#21851F", usage: "Success state", css: "--status-color-success" },
+      { token: "status-color-success-bg", base: "lightGreen-10", value: "#EDFBED", usage: "Success background", css: "--status-color-success-bg" },
+      { token: "status-color-info", base: "blue-50", value: "#2F90EB", usage: "Info message", css: "--status-color-info" },
+      { token: "status-color-info-bg", base: "blue-10", value: "#EBF4FD", usage: "Info message background", css: "--status-color-info-bg" },
+      { token: "brand-color-mo-plus", base: "moplus-60", value: "#545E8A", usage: "mo Store+ brand color", css: "--brand-color-mo-plus" },
+    ]
+  },
+  typography: {
+    primitive: [
+      { token: "text-family-sans", value: "Microsoft JhengHei" },
+      { token: "text-family-number", value: "Century Gothic" },
+      { token: "text-size-2xs", value: "10px", tailwind: "text-size-tag" },
+      { token: "text-size-xs", value: "11px", tailwind: "text-size-xs" },
+      { token: "text-size-sm", value: "13px", tailwind: "text-size-sm" },
+      { token: "text-size-xs2", value: "14px", tailwind: "text-size-xs2" },
+      { token: "text-size-md", value: "15px", primary: true, tailwind: "text-size-base" },
+      { token: "text-size-lg", value: "17px", tailwind: "text-size-lg" },
+      { token: "text-size-xl", value: "19px", tailwind: "text-size-xl" },
+      { token: "text-size-2xl", value: "21px", tailwind: "text-size-2xl" },
+      { token: "text-size-3xl", value: "23px", tailwind: "text-size-3xl" },
+      { token: "text-height-2xs", value: "12px", tailwind: "text-height-tag" },
+      { token: "text-height-xs", value: "16px", tailwind: "text-height-xs" },
+      { token: "text-height-sm", value: "18px", tailwind: "text-height-sm" },
+      { token: "text-height-xs2", value: "20px", tailwind: "text-height-xs2" },
+      { token: "text-height-md", value: "20px", primary: true, tailwind: "text-height-base" },
+      { token: "text-height-lg", value: "22px", tailwind: "text-height-lg" },
+      { token: "text-height-xl", value: "24px", tailwind: "text-height-xl" },
+      { token: "text-height-2xl", value: "26px", tailwind: "text-height-2xl" },
+      { token: "text-height-3xl", value: "28px", tailwind: "text-height-3xl" },
+      { token: "text-weight-regular", value: "400", tailwind: "font-normal" },
+      { token: "text-weight-bold", value: "700", tailwind: "font-bold" },
+    ],
+    // Semantic layer (Type Token) — expresses content type only; no component names or interaction states.
+    // Naming formula: {category}-{tier}; tier numbers ascend with font size.
+    semantic: [
+      // ── number (Century Gothic, for prices / numerals) ──────────────────────────
+      { token: "number-01", category: "number", fontFamily: "number", base: "text-size-md + text-height-md + regular", value: "15/20/400", desc: "Small numeric display (e.g. quantity counter)", css: "--number-01", tailwind: "ec-number-01" },
+      { token: "number-02", category: "number", fontFamily: "number", base: "text-size-xl + text-height-xl + bold", value: "19/24/700", desc: "Standard price / amount figures", css: "--number-02", tailwind: "ec-number-02" },
+      { token: "number-03", category: "number", fontFamily: "number", base: "text-size-2xl + text-height-2xl + bold", value: "21/26/700", desc: "Medium emphasized amount figures", css: "--number-03", tailwind: "ec-number-03" },
+      { token: "number-04", category: "number", fontFamily: "number", base: "text-size-3xl + text-height-3xl + bold", value: "23/28/700", desc: "Largest primary price figures", css: "--number-04", tailwind: "ec-number-04" },
+      // ── heading (structural headings) ───────────────────────────────────────────
+      { token: "heading-01", category: "heading", fontFamily: "sans", base: "text-size-lg + text-height-lg + bold", value: "17/22/700", desc: "Small structural heading", css: "--heading-01", tailwind: "ec-heading-01" },
+      { token: "heading-02", category: "heading", fontFamily: "sans", base: "text-size-xl + text-height-xl + bold", value: "19/24/700", desc: "Large structural heading", css: "--heading-02", tailwind: "ec-heading-02" },
+      // ── body (running text) ─────────────────────────────────────────────────────
+      { token: "body-01", category: "body", fontFamily: "sans", base: "text-size-md + text-height-md + regular", value: "15/20/400", desc: "Standard body text (default size) ★", css: "--body-01", tailwind: "ec-body-01" },
+      { token: "body-02", category: "body", fontFamily: "sans", base: "text-size-md + text-height-md + bold", value: "15/20/700", desc: "Emphasized body text", css: "--body-02", tailwind: "ec-body-02" },
+      { token: "body-compact-01", category: "body", fontFamily: "sans", base: "text-size-sm + text-height-sm + regular", value: "13/18/400", desc: "Secondary / supporting body text", css: "--body-compact-01", tailwind: "ec-body-compact-01" },
+      // ── label (short labels / badges / navigation helper text) ──────────────────
+      { token: "label-01", category: "label", fontFamily: "sans", base: "text-size-2xs + text-height-2xs + regular", value: "10/12/400", desc: "Smallest label text", css: "--label-01", tailwind: "ec-label-01" },
+      { token: "label-02", category: "label", fontFamily: "sans", base: "text-size-sm + text-height-sm + bold", value: "13/18/700", desc: "Emphasized small label", css: "--label-02", tailwind: "ec-label-02" },
+      { token: "label-03", category: "label", fontFamily: "sans", base: "text-size-xs2 + text-height-xs2 + regular", value: "14/20/400", desc: "Navigation / breadcrumb supporting text", css: "--label-03", tailwind: "ec-label-03" },
+      // ── helper-text (form / field helper text) ──────────────────────────────────
+      { token: "helper-text-01", category: "helper-text", fontFamily: "sans", base: "text-size-xs + text-height-xs + regular", value: "11/16/400", desc: "Helper text below fields; secondary hint text", css: "--helper-text-01", tailwind: "ec-helper-text-01" },
+      // ── legal (legal fine print) — new category; momo has no instances yet ──────
+      { token: "legal-01", category: "legal", fontFamily: "sans", base: "text-size-xs + text-height-xs + regular", value: "11/16/400", desc: "Fine print for terms, privacy policy, and other legal text (temporarily shares the helper-text-01 spec; designer to confirm whether a separate size is needed)", css: "--legal-01", tailwind: "ec-legal-01" },
+    ],
+    // Component reference layer — records which component / use case, in which state,
+    // references which semantic Type Token, instead of baking component names and states into token names.
+    component: [
+      { component: "Stepper quantity display", state: "—", token: "number-01", note: "Previously misused text-body (sans); corrected to the number font family" },
+      { component: "Product card price / checkout subtotal amounts", state: "—", token: "number-02", note: "Formerly text-price" },
+      { component: "Order amount figures", state: "—", token: "number-03", note: "Formerly text-number-lg" },
+      { component: "Product page primary price headline", state: "—", token: "number-04", note: "Formerly text-price-lg" },
+      { component: "Product name / Section title / Page title / Card title / Drawer title", state: "—", token: "heading-01", note: "Formerly text-heading-sm" },
+      { component: "Pill Button (Alert confirm / cancel, filter Pill Button)", state: "—", token: "heading-01", note: "Formerly text-pill-button; same values as the row above, now shares the same Type Token" },
+      { component: "Cart & checkout standalone section title / checkout amount heading", state: "—", token: "heading-02", note: "Formerly text-heading-lg" },
+      { component: "Product spec table / return & exchange notice / product name (list page) / order amount text / Radio button", state: "default", token: "body-01", note: "Formerly text-body" },
+      { component: "Ranking Tab / Order status Tab", state: "default", token: "body-01", note: "Formerly text-tab" },
+      { component: "Alert title / Toast content / Tutorial bubble title / Emphasized text", state: "—", token: "body-02", note: "Formerly text-body-bold" },
+      { component: "Radio button / Checkbox", state: "selected", token: "body-02", note: "Formerly text-body-selected" },
+      { component: "Confirm checkout button (large) / Saved card button / Square primary button", state: "—", token: "body-02", note: "Formerly text-button-lg" },
+      { component: "Ranking Tab / Order status Tab", state: "selected", token: "body-02", note: "Formerly text-tab-selected" },
+      { component: "Marketing copy (above product name)", state: "—", token: "body-compact-01", note: "Formerly text-marketing" },
+      { component: "Review content / spec Dropdown / filter result note / navigation bar / dropdown menu / placeholder / Alert body / tutorial bubble body", state: "—", token: "body-compact-01", note: "Formerly text-body-sm" },
+      { component: "Item number / total sales / review date / checkout amount text / item count / payment details / order detail label", state: "—", token: "body-compact-01", note: "Formerly text-caption" },
+      { component: "View all reviews / View more / return & exchange review button / tutorial bubble “Got it”", state: "—", token: "body-compact-01", note: "Formerly text-link" },
+      { component: "Filter Tab", state: "default", token: "body-compact-01", note: "Formerly text-tab-sm" },
+      { component: "Product page / product list tag badge text", state: "—", token: "label-01", note: "Formerly text-micro" },
+      { component: "Coupon tag / Alert message emphasis text", state: "—", token: "label-02", note: "Formerly text-tag, text-alert" },
+      { component: "Filter Tab", state: "selected", token: "label-02", note: "Formerly text-tab-sm-selected" },
+      { component: "Breadcrumb navigation", state: "—", token: "label-03", note: "Formerly text-breadcrumb" },
+      { component: "Order registration tag / shipping timeline timestamps / bottom navigation icon labels / secondary helper text", state: "—", token: "helper-text-01", note: "Formerly text-footnote" },
+      { component: "(No instances yet) Footer terms and privacy policy fine print", state: "—", token: "legal-01", note: "To be added in phase 3; reference first when adding new components" },
+    ],
+  },
+  spacing: {
+    // Primitive layer (Spacing Scale) — pure 4px grid; names use Carbon-style opaque sequential numbers
+    // The number in spacing-XX does not encode the value (look it up), which decouples names from values.
+    primitive: [
+      { token: "spacing-00", value: "0px", tailwind: "—" },
+      { token: "spacing-01", value: "4px", tailwind: "p-1/gap-1" },
+      { token: "spacing-02", value: "8px", tailwind: "p-2/gap-2" },
+      { token: "spacing-03", value: "12px", tailwind: "p-3/gap-3" },
+      { token: "spacing-04", value: "16px", primary: true, tailwind: "p-4/gap-4" },
+      { token: "spacing-05", value: "20px", tailwind: "p-5/gap-5" },
+      { token: "spacing-06", value: "24px", tailwind: "p-6/gap-6" },
+      { token: "spacing-07", value: "32px", tailwind: "p-8/gap-8" },
+      { token: "spacing-08", value: "40px", tailwind: "p-10/gap-10" },
+      { token: "spacing-09", value: "48px", tailwind: "p-12/gap-12" },
+      { token: "spacing-10", value: "64px", tailwind: "p-16/gap-16" },
+      { token: "spacing-11", value: "96px", tailwind: "p-24/gap-24" },
+    ],
+    // Semantic layer — expresses context type only; no component names,
+    // and no direction (horizontal / vertical) in names; direction is set by the component reference layer below.
+    // Naming formula: {category}-{tier}.
+    semantic: [
+      // ── inset (standard component padding scale) ────────────────────────────────
+      { token: "inset-01", category: "inset", base: "spacing-02", value: "8px", desc: "Tightest inset, for very small components such as Tag / Badge" },
+      { token: "inset-02", category: "inset", base: "spacing-03", value: "12px", desc: "Standard component inset (default) ★" },
+      { token: "inset-03", category: "inset", base: "spacing-04", value: "16px", desc: "Comfortable inset" },
+      { token: "inset-04", category: "inset", base: "spacing-05", value: "20px", desc: "Spacious inset" },
+      { token: "inset-05", category: "inset", base: "spacing-06", value: "24px", desc: "Most spacious inset, e.g. Modal / Section containers" },
+      // ── container (Web page container padding, by breakpoint) ───────────────────
+      { token: "container-01", category: "container", base: "spacing-04", value: "16px", desc: "Mobile (≤768px)" },
+      { token: "container-02", category: "container", base: "spacing-06", value: "24px", desc: "Tablet (768–1024px)" },
+      { token: "container-03", category: "container", base: "spacing-07", value: "32px", desc: "Desktop (≥1024px)" },
+      { token: "container-04", category: "container", base: "spacing-09", value: "48px", desc: "Wide screen (≥1440px)" },
+    ],
+    // Component reference layer — records which component, in which direction,
+    // references which semantic token, instead of baking direction (-x/-y) into semantic token names.
+    component: [
+      { component: "Tag / Badge / Chip badge", axis: "Vertical", token: "inset-01", note: "Formerly padding-component-xs-y / sm-y (2px / 4px; unconfirmed values rounded to the nearest 4px grid step)" },
+      { component: "Pill Button (capsule button)", axis: "Vertical", token: "inset-01", note: "Formerly padding-component-md-y (6px; unconfirmed value, rounded)" },
+      { component: "Standard component (default)", axis: "Vertical", token: "inset-02", note: "Formerly padding-component-2xl-y (12px ★)" },
+      { component: "Toast", axis: "Vertical margin", token: "inset-04", note: "Formerly padding-component-4xl-y (20px; confirmed)" },
+      { component: "Button (small)", axis: "Horizontal", token: "inset-02", note: "From the original PDF button padding table: spacing/3 → 12px" },
+      { component: "Button (small)", axis: "Vertical", token: "inset-01", note: "From the original PDF button padding table: spacing/2 → 8px" },
+      { component: "Button (medium, default)", axis: "Horizontal", token: "inset-03", note: "From the original PDF button padding table: spacing/4 → 16px" },
+      { component: "Button (medium, default)", axis: "Vertical", token: "inset-02", note: "From the original PDF button padding table: spacing/3 → 12px" },
+      { component: "Button (large)", axis: "Horizontal", token: "inset-05", note: "From the original PDF button padding table: spacing/6 → 24px" },
+      { component: "Button (large)", axis: "Vertical", token: "inset-03", note: "From the original PDF button padding table: spacing/4 → 16px" },
+      { component: "Pill Button (capsule button, Alert/Dialog)", axis: "Horizontal", token: "inset-03", note: "Reuses Button medium horizontal padding" },
+      { component: "Pill Button (capsule button, Alert/Dialog)", axis: "Vertical", token: "inset-02", note: "Reuses Button medium vertical padding" },
+      { component: "Web container padding", axis: "Horizontal", token: "container-01", note: "Mobile ≤768px" },
+      { component: "Web container padding", axis: "Horizontal", token: "container-02", note: "Tablet 768–1024px" },
+      { component: "Web container padding", axis: "Horizontal", token: "container-03", note: "Desktop ≥1024px" },
+      { component: "Web container padding", axis: "Horizontal", token: "container-04", note: "Wide screen ≥1440px" },
+    ],
+  },
+  radius: {
+    // Primitive layer (Radius Scale) — keeps the progressive radius values; names use Carbon-style
+    // opaque sequential numbers decoupled from values. full is a special value (capsule / circle)
+    // and is not part of the linear sequence.
+    primitive: [
+      { token: "radius-scale-00", value: "0px", tailwind: "rounded-none" },
+      { token: "radius-scale-01", value: "2px", tailwind: "rounded-sm" },
+      { token: "radius-scale-02", value: "4px", tailwind: "rounded" },
+      { token: "radius-scale-03", value: "6px", tailwind: "rounded-md" },
+      { token: "radius-scale-04", value: "8px", primary: true, tailwind: "rounded-lg" },
+      { token: "radius-scale-05", value: "12px", tailwind: "rounded-xl" },
+      { token: "radius-scale-06", value: "16px", tailwind: "rounded-2xl" },
+      { token: "radius-scale-full", value: "9999px", special: true, tailwind: "rounded-full" },
+    ],
+    // Semantic layer — two groups by content type: shape (standard UI component shapes)
+    // and image (image / media radius); no component names; see the component reference layer below.
+    semantic: [
+      // ── shape (UI component shape scale) ────────────────────────────────────────
+      { token: "shape-01", category: "shape", base: "radius-scale-01", value: "2px", desc: "Finest radius for small interactive controls" },
+      { token: "shape-02", category: "shape", base: "radius-scale-02", value: "4px", desc: "Radius for form fields" },
+      { token: "shape-03", category: "shape", base: "radius-scale-03", value: "6px", desc: "Radius for standard interactive components" },
+      { token: "shape-04", category: "shape", base: "radius-scale-04", value: "8px", desc: "Radius for medium-to-large containers ★" },
+      { token: "shape-05", category: "shape", base: "radius-scale-05", value: "12px", desc: "Radius for large floating-layer containers" },
+      { token: "shape-06", category: "shape", base: "radius-scale-full", value: "9999px", desc: "Fully round / capsule shape" },
+      // ── image (image / media radius) ────────────────────────────────────────────
+      { token: "image-01", category: "image", base: "radius-scale-02", value: "4px", desc: "Radius for small thumbnails ★" },
+      { token: "image-02", category: "image", base: "radius-scale-04", value: "8px", desc: "Radius for standard images" },
+      { token: "image-03", category: "image", base: "radius-scale-06", value: "16px", desc: "Radius for large hero images" },
+    ],
+    // Component reference layer — restores the mapping from the original PDF appendix of which
+    // component uses which radius; this information was lost during the earlier HTML conversion.
+    component: [
+      { component: "Checkbox / Radio / Switch", token: "shape-01", note: "Formerly radius/component/sm" },
+      { component: "Stepper plus/minus buttons (left and right corners)", token: "shape-01", note: "Reuses the smallest interactive control radius" },
+      { component: "Input / Select / Textarea / Badge / Table", token: "shape-02", note: "Formerly radius/component/base" },
+      { component: "Button (default) / Tag / Chip / Notification / Alert", token: "shape-03", note: "Formerly radius/component/md; fixes an earlier error where the HTML used 4px" },
+      { component: "Card (★ defined in design file) / Panel / Dropdown / Menu", token: "shape-04", note: "Formerly radius/component/lg" },
+      { component: "Modal / Dialog / Sheet / Drawer", token: "shape-05", note: "Formerly radius/component/xl" },
+      { component: "Pill Button / Avatar / Status Dot", token: "shape-06", note: "Formerly radius/component/pill" },
+      { component: "Product thumbnail", token: "image-01", note: "★ Defined in design file; formerly radius/image/thumbnail" },
+      { component: "Standard image", token: "image-02", note: "Formerly radius/image/default" },
+      { component: "Hero image", token: "image-03", note: "Formerly radius/image/hero" },
+    ],
+  },
+  shadow: {
+    // Primitive layer — restores the design-file shadow-card (asymmetric diagonal shadow) and removes
+    // the orphan values (shadow-xs / shadow-sm) that no semantic token referenced.
+    primitive: [
+      { token: "shadow-none", value: "none" },
+      { token: "shadow-card", value: "3px 3px 10px 0px rgba(0,0,0,0.10)", design: true },
+      { token: "shadow-md", value: "0px 4px 12px 0px rgba(0,0,0,0.12)" },
+      { token: "shadow-lg", value: "0px 8px 24px 0px rgba(0,0,0,0.14)" },
+    ],
+    // Semantic layer — elevation-surface-raised points back to the design-file shadow-card.
+    semantic: [
+      { token: "elevation-surface-flat", base: "shadow-none", value: "none", usage: "Standard page content, tables" },
+      { token: "elevation-surface-raised", base: "shadow-card", value: "3px 3px 10px rgba(0,0,0,0.10)", usage: "Slightly raised components, list items (★ design file value)" },
+      { token: "elevation-surface-floating", base: "shadow-md", value: "0px 4px 12px rgba(0,0,0,0.12)", usage: "Floating buttons, Popover, Dropdown" },
+      { token: "elevation-surface-overlay", base: "shadow-lg", value: "0px 8px 24px rgba(0,0,0,0.14)", usage: "Modal, overlays, drawers" },
+      { token: "elevation-surface-notification", base: "shadow-md", value: "0px 4px 12px rgba(0,0,0,0.12)", usage: "Toast, Snackbar, and other notification layers (same value as floating, different context)" },
+    ],
+    // Component reference layer — records which component should reference which semantic token.
+    component: [
+      { component: "Standard page content / tables", token: "elevation-surface-flat", note: "No shadow" },
+      { component: "Product card / list item", token: "elevation-surface-raised", note: "★ Diagonal shadow defined in the design file" },
+      { component: "Floating action button (FAB)", token: "elevation-surface-floating", note: "" },
+      { component: "Popover / Dropdown menu", token: "elevation-surface-floating", note: "" },
+      { component: "Modal / Dialog", token: "elevation-surface-overlay", note: "" },
+      { component: "Side Drawer", token: "elevation-surface-overlay", note: "" },
+      { component: "Toast / Snackbar", token: "elevation-surface-notification", note: "" },
+    ],
+  },
+  motion: {
+    primitive: [
+      { token: "duration-fast", value: "150ms", usage: "Subtle interactions (hover, ripple)" },
+      { token: "duration-base", value: "200ms", usage: "Standard transitions (color changes, fades)" },
+      { token: "duration-slow", value: "300ms ★", usage: "Overlay open/close, Sheet slide-in" },
+      { token: "duration-slower", value: "400ms", usage: "Page transitions, complex animations" },
+      { token: "easing-standard", value: "cubic-bezier(0.32,1,0.23,1) ★", usage: "Sheet slide in / out" },
+      { token: "easing-ease-out", value: "ease-out", usage: "Fade-out and dismiss animations" },
+      { token: "easing-ease-in-out", value: "ease-in-out", usage: "Standard transition effects" },
+      { token: "easing-linear", value: "linear", usage: "Progress bars, carousels" },
+    ],
+    semantic: [
+      { token: "motion-micro-interaction", base: "duration-fast + easing-ease-out", value: "150ms ease-out", usage: "Subtle interactions (hover, ripple)" },
+      { token: "motion-transition", base: "duration-base + easing-ease-in-out", value: "200ms ease-in-out", usage: "Standard transitions (color changes, fades)" },
+      { token: "motion-sheet", base: "duration-slow + easing-standard", value: "300ms cubic-bezier(0.32,1,0.23,1)", usage: "Sheet slide in / out (four directions)" },
+      { token: "motion-page-transition", base: "duration-slower + easing-ease-in-out", value: "400ms ease-in-out", usage: "Page transitions, complex animations" },
+      { token: "motion-ticker-fade", base: "duration-slow + easing-ease-out", value: "300ms ease-out forwards", usage: "Search bar text ticker fade in / out" },
+    ]
+  },
+  zindex: {
+    primitive: [
+      { token: "z--1", value: "-1" }, { token: "z-0", value: "0" },
+      { token: "z-10", value: "10" }, { token: "z-20", value: "20" },
+      { token: "z-30", value: "30" }, { token: "z-40", value: "40" },
+      { token: "z-50", value: "50" }, { token: "z-60", value: "60" },
+      { token: "z-80", value: "80" }, { token: "z-90", value: "90" },
+      { token: "z-100", value: "100" }, { token: "z-200", value: "200" },
+      { token: "z-300", value: "300" }, { token: "z-400", value: "400" },
+      { token: "z-500", value: "500" }, { token: "z-600", value: "600" },
+      { token: "z-9999", value: "9999" },
+    ],
+    semantic: [
+      { token: "z-hide", base: "z--1", value: "-1", group: "Base", usage: "Hidden behind the background" },
+      { token: "z-base", base: "z-0", value: "0", group: "Base", usage: "Normal document flow" },
+      { token: "z-app-marker", base: "z-10", value: "10", group: "Inside product image", usage: "Product tag, long tag, bottom tag, round tag" },
+      { token: "z-app-layer", base: "z-20", value: "20", group: "Inside product image", usage: "Last few units, Video Play Button" },
+      { token: "z-app-trial", base: "z-30", value: "30", group: "Inside product image", usage: "Preview (sample read)" },
+      { token: "z-app-counter", base: "z-40", value: "40", group: "Inside product image", usage: "Image pagination number" },
+      { token: "z-app-overlay", base: "z-50", value: "50", group: "Inside product image", usage: "Mask for age-restricted content" },
+      { token: "z-app-badge", base: "z-60", value: "60", group: "Inside product image", usage: "Shipping status, ranking, price" },
+      { token: "z-app-tag", base: "z-80", value: "80", group: "Inside product image", usage: "Ad label" },
+      { token: "z-app-action", base: "z-90", value: "90", group: "Inside product image", usage: "Add to watchlist, add to cart" },
+      { token: "z-floater", base: "z-100", value: "100", group: "Global", usage: "Floating buttons, sticky bottom CTA" },
+      { token: "z-sticky", base: "z-200", value: "200", group: "Global", usage: "Sticky Header, fixed bars" },
+      { token: "z-overlay", base: "z-300", value: "300", group: "Global", usage: "Mask (Overlay)" },
+      { token: "z-modal", base: "z-400", value: "400", group: "Global", usage: "Modal, Dialog, Sheet" },
+      { token: "z-popover", base: "z-500", value: "500", group: "Global", usage: "Popover, Dropdown, Tooltip" },
+      { token: "z-toast", base: "z-600", value: "600", group: "Global", usage: "Toast, Snackbar" },
+      { token: "z-max", base: "z-9999", value: "9999", group: "Global", usage: "Emergency override (use with caution)" },
+    ]
+  }
+};
+
+const NAV = [
+  { id: "overview", label: "Overview", icon: "◎", group: "foundation" },
+  { id: "color", label: "Color", icon: "●", group: "foundation" },
+  { id: "typography", label: "Typography", icon: "T", group: "foundation" },
+  { id: "spacing", label: "Spacing", icon: "↔", group: "foundation" },
+  { id: "radius", label: "Border Radius", icon: "⌒", group: "foundation" },
+  { id: "shadow", label: "Shadow", icon: "◫", group: "foundation" },
+  { id: "motion", label: "Motion", icon: "▷", group: "foundation" },
+  { id: "zindex", label: "Z-index", icon: "⊕", group: "foundation" },
+  { id: "button", label: "Button", icon: "⬜", group: "component" },
+  { id: "chip", label: "Chip", icon: "◻", group: "component" },
+  { id: "stepper", label: "Stepper", icon: "±", group: "component" },
+];
+
+// ─── HELPERS ──────────────────────────────────────────────────────────────────
+function isDark(hex) {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return (r * 299 + g * 587 + b * 114) / 1000 < 128;
+}
+
+// Embedded logo fallback: used when img/logo.png fails to load (e.g. HTML opened alone without the img folder)
+const LOGO_FALLBACK = "data:image/png;base64,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";
+
+function Badge({ children, color = "#767676" }) {
+  return (
+    <span style={{ color, fontSize: 11, fontWeight: 500, padding: "1px 7px", borderRadius: 4, border: `1px solid ${color}55`, whiteSpace: "nowrap" }}>
+      {children}
+    </span>
+  );
+}
+
+function TokenTag({ children }) {
+  return (
+    <code style={{ fontFamily: "var(--mono)", fontSize: 12, color: "#1A1A1A", background: "#F5F5F5", padding: "1px 6px", borderRadius: 4, display: "inline-block", lineHeight: "18px" }}>
+      {children}
+    </code>
+  );
+}
+
+function CopyBtn({ text }) {
+  const [copied, setCopied] = useState(false);
+  return (
+    <button
+      onClick={() => { navigator.clipboard?.writeText(text); setCopied(true); setTimeout(() => setCopied(false), 1500); }}
+      style={{ background: "none", border: "none", cursor: "pointer", color: copied ? "#1F7C1D" : "#767676", fontSize: 11, padding: "0 4px" }}
+      aria-label="Copy"
+    >{copied ? "Copied" : "Copy"}</button>
+  );
+}
+
+function SectionHeader({ title, desc }) {
+  return (
+    <header style={{ marginBottom: 28, maxWidth: 760 }}>
+      <h2 style={{ margin: 0, fontSize: 26, fontWeight: 700, color: "#1A1A1A", letterSpacing: "-0.01em", lineHeight: 1.25 }}>{title}</h2>
+      {desc && <p style={{ margin: "10px 0 0", fontSize: 14, color: "#6B6B6B", lineHeight: 1.75 }}>{desc}</p>}
+    </header>
+  );
+}
+
+function SubTitle({ children, note }) {
+  return (
+    <div style={{ display: "flex", alignItems: "baseline", gap: 10, margin: "32px 0 12px" }}>
+      <h3 style={{ margin: 0, fontSize: 14, fontWeight: 600, color: "#1A1A1A" }}>{children}</h3>
+      {note && <span style={{ fontSize: 12, color: "#767676" }}>{note}</span>}
+    </div>
+  );
+}
+
+function Table({ headers, rows, widths }) {
+  return (
+    <div style={{ overflowX: "auto", border: "1px solid #E6E6E6", borderRadius: 6, marginBottom: 24 }}>
+      <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
+        <thead>
+          <tr>
+            {headers.map((h, i) => (
+              <th key={i} style={{ padding: "9px 14px", textAlign: "left", fontWeight: 500, color: "#767676", fontSize: 12, whiteSpace: "nowrap", width: widths?.[i], background: "#FAFAFA", borderBottom: "1px solid #E6E6E6" }}>
+                {h}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((row, i) => (
+            <tr key={i} style={{ borderBottom: i < rows.length - 1 ? "1px solid #F0F0F0" : "none" }}>
+              {row.map((cell, j) => (
+                <td key={j} style={{ padding: "10px 14px", verticalAlign: "middle", color: "#404040", lineHeight: 1.5 }}>
+                  {cell}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+// ─── SECTION: OVERVIEW ───────────────────────────────────────────────────────
+function OverviewSection({ tokens, onNavigate }) {
+  const n = (k, l) => tokens[k]?.[l]?.length ?? "—";
+  const foundations = [
+    { id: "color", label: "Color" },
+    { id: "typography", label: "Typography" },
+    { id: "spacing", label: "Spacing" },
+    { id: "radius", label: "Border Radius" },
+    { id: "shadow", label: "Shadow" },
+    { id: "motion", label: "Motion" },
+    { id: "zindex", label: "Z-index" },
+  ];
+  const num = (v) => <span style={{ fontVariantNumeric: "tabular-nums", color: v === "—" ? "#767676" : "#1A1A1A" }}>{v}</span>;
+  const todo = [
+    "Font weight is missing a medium (500) level; recommend adding it",
+    "Container padding (container-*) is Web only for now; native to be added",
+    "Dark mode semantic layer not yet created",
+    "legal-01 temporarily shares the helper-text-01 spec; designer to confirm whether a separate size is needed",
+    "Color has no component reference layer yet; button colors currently sit directly in the semantic layer",
+  ];
+  return (
+    <div>
+      <header style={{ marginBottom: 40, maxWidth: 680 }}>
+        <div style={{ fontSize: 13, color: "#767676", marginBottom: 10 }}>momo Design System</div>
+        <h1 style={{ margin: 0, fontSize: 36, fontWeight: 700, lineHeight: 1.2, color: "#1A1A1A", letterSpacing: "-0.02em" }}>Design Tokens</h1>
+        <p style={{ margin: "14px 0 0", fontSize: 15, color: "#6B6B6B", lineHeight: 1.8 }}>
+          The primitive layer defines raw values, the semantic layer expresses purpose, and the component reference layer records which token each component actually uses. Naming follows IBM Carbon's sequential numbering convention, and the content can be imported into Figma Variables.
+        </p>
+      </header>
+
+      <SubTitle note="Token count per layer">Foundation</SubTitle>
+      <Table
+        headers={["Category", "Primitive", "Semantic", "Component reference"]}
+        widths={[null, 120, 120, 120]}
+        rows={foundations.map(f => [
+          <button onClick={() => onNavigate(f.id)} style={{ background: "none", border: "none", padding: 0, cursor: "pointer", fontSize: 13, fontWeight: 600, color: "#1A1A1A", textDecoration: "underline", textDecorationColor: "#C6C6C6", textUnderlineOffset: 3 }}>{f.label}</button>,
+          num(n(f.id, "primitive")), num(n(f.id, "semantic")), num(n(f.id, "component")),
+        ])}
+      />
+
+      <SubTitle>Open items</SubTitle>
+      <ul style={{ margin: "0 0 24px", paddingLeft: 18, fontSize: 14, color: "#404040", lineHeight: 2 }}>
+        {todo.map((t, i) => <li key={i}>{t}</li>)}
+      </ul>
+
+      <SubTitle>Components</SubTitle>
+      <p style={{ margin: 0, fontSize: 14, color: "#404040", lineHeight: 1.8 }}>
+        Specification pages exist for Button, Chip, and Stepper; remaining components will be developed in phase 2.
+      </p>
+    </div>
+  );
+}
+
+// ─── LAYER TABS ──────────────────────────────────────────────────────────────
+function LayerTabs({ tabs, active, onChange }) {
+  return (
+    <div role="tablist" style={{ display: "flex", gap: 28, borderBottom: "1px solid #E6E6E6", marginBottom: 28, overflowX: "auto" }}>
+      {tabs.map(t => {
+        const on = active === t.id;
+        return (
+          <button
+            key={t.id} role="tab" aria-selected={on}
+            onClick={() => onChange(t.id)}
+            style={{
+              padding: "10px 0", background: "none", border: "none", cursor: "pointer", whiteSpace: "nowrap",
+              fontSize: 14, fontWeight: on ? 600 : 400, color: on ? "#1A1A1A" : "#767676",
+              borderBottom: on ? "2px solid #D62872" : "2px solid transparent", marginBottom: -1,
+              display: "flex", alignItems: "baseline", gap: 6, transition: "color .15s",
+            }}
+          >
+            {t.label}
+            {t.note && <span style={{ fontSize: 11, color: "#8C590D", fontWeight: 400 }}>{t.note}</span>}
+            {t.count != null && <span style={{ fontSize: 12, color: "#767676", fontWeight: 400, fontVariantNumeric: "tabular-nums" }}>{t.count}</span>}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+// ─── SECTION: COLOR ───────────────────────────────────────────────────────────
+function ColorSection({ tokens, viewMode }) {
+  const [layer, setLayer] = useState("primitive");
+  const groups = [...new Set(tokens.color.primitive.map(t => t.group))];
+  const engineer = viewMode === "engineer";
+  const catLabels = { text: "Text", bg: "Background", border: "Border", button: "Button", icon: "Icon", status: "Status", brand: "Brand" };
+
+  return (
+    <div>
+      <SectionHeader title="Color" desc="The primitive layer defines hues and 10-step ramps; the semantic layer groups colors by purpose. In development, reference only the semantic layer — do not hard-code HEX values." />
+      <LayerTabs
+        tabs={[
+          { id: "primitive", label: "Primitive", count: tokens.color.primitive.length },
+          { id: "semantic", label: "Semantic", count: tokens.color.semantic.length },
+        ]}
+        active={layer} onChange={setLayer}
+      />
+
+      {layer === "primitive" && (
+        <div style={{ borderTop: "1px solid #F0F0F0" }}>
+          {groups.map(g => {
+            const items = tokens.color.primitive.filter(t => t.group === g);
+            const ramp = items.length === 10;
+            const label = (t) => g === "Special" ? t.token.replace("special-", "") : t.token.split("-").pop();
+            return (
+              <div key={g} style={{ display: "grid", gridTemplateColumns: "132px minmax(0, 1fr)", gap: 16, padding: "16px 0", borderBottom: "1px solid #F0F0F0", alignItems: "start" }}>
+                <div style={{ fontSize: 13, fontWeight: 600, color: "#1A1A1A", paddingTop: 2 }}>{g}</div>
+                <div style={{ overflowX: "auto" }}>
+                  <div style={{ display: "grid", gridTemplateColumns: ramp ? "repeat(10, minmax(52px, 1fr))" : "repeat(auto-fill, 84px)", gap: ramp ? 0 : 8 }}>
+                    {items.map((t, i) => (
+                      <div key={t.token} title={`${t.token}  ${t.value}`}>
+                        <div style={{
+                          height: 36, background: t.value, boxShadow: "inset 0 0 0 1px rgba(0,0,0,0.06)",
+                          borderRadius: ramp ? (i === 0 ? "4px 0 0 4px" : i === items.length - 1 ? "0 4px 4px 0" : 0) : 4,
+                        }} />
+                        <div style={{ fontSize: 12, color: "#1A1A1A", marginTop: 6 }}>{label(t)}</div>
+                        <div style={{ fontSize: 11, color: "#767676", fontFamily: "var(--mono)" }}>{t.value}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {layer === "semantic" && (
+        <div>
+          {["text", "bg", "border", "button", "icon", "status", "brand"].map(cat => {
+            const items = tokens.color.semantic.filter(t => t.token.startsWith(cat));
+            if (!items.length) return null;
+            const headers = ["", "Token", "Primitive reference", "HEX", "Usage"].concat(engineer ? ["CSS variable"] : []);
+            return (
+              <div key={cat}>
+                <SubTitle note={String(items.length)}>{catLabels[cat]}</SubTitle>
+                <Table
+                  headers={headers}
+                  widths={[44]}
+                  rows={items.map(t => [
+                    <span style={{ display: "block", width: 24, height: 24, borderRadius: 4, background: t.value, boxShadow: "inset 0 0 0 1px rgba(0,0,0,0.08)" }} />,
+                    <TokenTag>{t.token}</TokenTag>,
+                    <span style={{ fontFamily: "var(--mono)", fontSize: 12, color: "#6B6B6B" }}>{t.base}</span>,
+                    <span style={{ fontFamily: "var(--mono)", fontSize: 12 }}>{t.value}</span>,
+                    <span style={{ color: "#6B6B6B" }}>{t.usage}</span>,
+                  ].concat(engineer ? [<span style={{ whiteSpace: "nowrap" }}><code style={{ fontFamily: "var(--mono)", fontSize: 12, color: "#0E5496" }}>{t.css}</code><CopyBtn text={`var(${t.css})`} /></span>] : []))}
+                />
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─── SECTION: TYPOGRAPHY ─────────────────────────────────────────────────────
+function TypographySection({ tokens, viewMode }) {
+  const [layer, setLayer] = useState("primitive");
+
+  return (
+    <div>
+      <SectionHeader title="Typography" desc="The primitive layer defines font size, line height, and weight; the semantic layer groups styles by content type and is named “category-tier”; the component reference layer records which semantic token each component uses in each state." />
+      <LayerTabs
+        tabs={[
+          { id: "primitive", label: "Primitive", count: tokens.typography.primitive.length },
+          { id: "semantic", label: "Semantic", count: tokens.typography.semantic.length },
+          { id: "component", label: "Component", count: tokens.typography.component.length },
+        ]}
+        active={layer} onChange={setLayer}
+      />
+
+      {layer === "primitive" && (
+        <div>
+          <SubTitle>Font Family</SubTitle>
+          <Table
+            headers={["Token", "Typeface", "Web fallback"]}
+            rows={tokens.typography.primitive.filter(t => t.token.startsWith("text-family")).map(t => [
+              <TokenTag>{t.token}</TokenTag>, t.value, t.note
+            ])}
+          />
+          <SubTitle>Font Size</SubTitle>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 8, marginBottom: 24 }}>
+            {tokens.typography.primitive.filter(t => t.token.startsWith("text-size")).map(t => (
+              <div key={t.token} style={{ background: "#FAFAFA", borderRadius: 6, padding: "10px 14px", border: "1px solid #EDEDED" }}>
+                <div style={{ fontSize: parseInt(t.value), lineHeight: 1, color: "#262626", marginBottom: 6, overflow: "hidden", maxHeight: 36 }}>Aa</div>
+                <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
+                  <TokenTag>{t.token}</TokenTag>
+                  {t.primary && <span style={{ fontSize: 11, color: "#D62872" }}>Base</span>}
+                </div>
+                <div style={{ fontSize: 11, color: "#767676", marginTop: 4 }}>{t.value}
+                  {viewMode === "engineer" && <span style={{ color: "#1683E9", marginLeft: 6 }}>{t.tailwind}</span>}
+                </div>
+              </div>
+            ))}
+          </div>
+          <SubTitle>Line Height & Font Weight</SubTitle>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+            <Table
+              headers={["Token", "Line height", viewMode === "engineer" ? "Tailwind" : "Note"]}
+              rows={tokens.typography.primitive.filter(t => t.token.startsWith("text-height")).map(t => [
+                <TokenTag>{t.token}</TokenTag>,
+                <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                  {t.value}
+                  {t.primary && <span style={{ fontSize: 11, color: "#D62872" }}>Base</span>}
+                </span>,
+                viewMode === "engineer" ? <span style={{ color: "#1683E9", fontSize: 12 }}>{t.tailwind}</span> : (t.primary ? "Line height for the primary font size" : "—")
+              ])}
+            />
+            <Table
+              headers={["Token", "Weight", viewMode === "engineer" ? "Tailwind" : "Usage"]}
+              rows={tokens.typography.primitive.filter(t => t.token.startsWith("text-weight")).map(t => [
+                <TokenTag>{t.token}</TokenTag>,
+                <span style={{ fontWeight: parseInt(t.value), fontSize: 14 }}>{t.value}</span>,
+                viewMode === "engineer" ? <span style={{ color: "#1683E9", fontSize: 12 }}>{t.tailwind}</span> : (t.token.includes("bold") ? "Heading / Button" : "Body text")
+              ])}
+            />
+          </div>
+        </div>
+      )}
+
+      {layer === "semantic" && (
+        <div>
+          {["number", "heading", "body", "label", "helper-text", "legal"].map(cat => {
+            const items = tokens.typography.semantic.filter(t => t.category === cat);
+            if (!items.length) return null;
+            const catLabels = { number: "Number", heading: "Heading", body: "Body", label: "Label", "helper-text": "Helper text", legal: "Legal" };
+            return (
+              <div key={cat} style={{ marginBottom: 8 }}>
+                <SubTitle note={String(items.length)}>{catLabels[cat]}</SubTitle>
+                <div style={{ border: "1px solid #E6E6E6", borderRadius: 6, overflow: "hidden" }}>
+                  {items.map((t, i) => {
+                    const [size, height, weight] = t.value.split("/");
+                    const previewText = cat === "number" ? "NT$ 1,234" : cat === "heading" ? "Heading text" : t.token === "label-03" ? "Home > Electronics" : cat === "label" ? "Tag" : cat === "helper-text" ? "Helper text" : cat === "legal" ? "Legal terms text" : "Sample body text";
+                    return (
+                      <div key={t.token} style={{ padding: "14px 18px", borderBottom: i < items.length - 1 ? "1px solid #F0F0F0" : "none", background: "#fff", display: "flex", alignItems: "flex-start", gap: 24 }}>
+                        <div style={{ fontSize: parseInt(size), lineHeight: parseInt(height) / parseInt(size), fontWeight: parseInt(weight), color: "#262626", minWidth: 110, flexShrink: 0, paddingTop: 2 }}>
+                          {previewText}
+                        </div>
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap", marginBottom: 4 }}>
+                            <TokenTag>{t.token}</TokenTag>
+                            <span style={{ fontSize: 11, color: "#767676", fontFamily: "var(--mono)" }}>{t.value}</span>
+                            {t.fontFamily && <span style={{ fontSize: 11, color: "#767676" }}>{t.fontFamily === "number" ? "Century Gothic" : "Microsoft JhengHei"}</span>}
+                          </div>
+                          <div style={{ fontSize: 12, color: "#666" }}>{t.desc}</div>
+                          {viewMode === "engineer" && (
+                            <div style={{ fontSize: 11, marginTop: 6, display: "flex", gap: 10 }}>
+                              <span style={{ color: "#1683E9" }}>{t.css}</span>
+                              <span style={{ color: "#5C6A2F" }}>{t.tailwind}</span>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {layer === "component" && (
+        <div>
+          <div style={{ fontSize: 12, color: "#666", marginBottom: 14, lineHeight: 1.6 }}>
+            This table records which semantic Type Token each component / use case should reference in a given state. State changes (e.g. selected / unselected) only affect the mapping here and do not create new semantic tokens.
+          </div>
+          <Table
+            headers={["Component / use case", "State", "Referenced Type Token", "Notes (legacy mapping)"]}
+            rows={tokens.typography.component.map(c => [
+              <span style={{ fontSize: 12.5 }}>{c.component}</span>,
+              <span style={{ fontSize: 12, color: c.state === "selected" ? "#D62872" : "#999", fontWeight: c.state === "selected" ? 600 : 400 }}>{c.state}</span>,
+              <TokenTag>{c.token}</TokenTag>,
+              <span style={{ fontSize: 11.5, color: "#767676" }}>{c.note}</span>,
+            ])}
+          />
+        </div>
+      )}
+
+    </div>
+  );
+}
+
+// ─── SECTION: SPACING ─────────────────────────────────────────────────────────
+function SpacingSection({ tokens, viewMode }) {
+  const [layer, setLayer] = useState("primitive");
+
+  return (
+    <div>
+      <SectionHeader title="Spacing" desc="The primitive layer uses a 4px grid and sequential numbering; the semantic layer is split into inset and container; the component reference layer records the step each component uses in each direction." />
+      <LayerTabs
+        tabs={[
+          { id: "primitive", label: "Primitive", count: tokens.spacing.primitive.length },
+          { id: "semantic", label: "Semantic", count: tokens.spacing.semantic.length },
+          { id: "component", label: "Component", count: tokens.spacing.component.length },
+        ]}
+        active={layer} onChange={setLayer}
+      />
+
+      {layer === "primitive" && (
+        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+          {tokens.spacing.primitive.map(t => {
+            const px = parseInt(t.value);
+            return (
+              <div key={t.token} style={{ display: "flex", alignItems: "center", gap: 14, padding: "6px 0", borderBottom: "1px solid #F2F2F2" }}>
+                <div style={{ width: 120, flexShrink: 0, display: "flex", alignItems: "center", gap: 6 }}>
+                  <TokenTag>{t.token}</TokenTag>
+                  {t.primary && <span style={{ fontSize: 11, color: "#D62872" }}>Base</span>}
+                </div>
+                <div style={{ width: Math.min(px * 1.5, 220), height: 18, background: t.primary ? "#D62872" : "#C6C6C6", borderRadius: 2, flexShrink: 0, minWidth: 2 }} />
+                <span style={{ fontSize: 12, color: "#666", flexShrink: 0 }}>{t.value}</span>
+                {viewMode === "engineer" && <span style={{ fontSize: 12, color: "#1683E9", flexShrink: 0 }}>{t.tailwind}</span>}
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {layer === "semantic" && (
+        <div>
+          {[
+            { cat: "inset", label: "Inset (standard component padding scale)", color: "#D62872", note: "Direction-agnostic; see the component reference layer for horizontal / vertical usage" },
+            { cat: "container", label: "Container (Web page container padding, by breakpoint)", color: "#1683E9", note: "Web only; native to be added" },
+          ].map(({ cat, label, color, note }) => {
+            const items = tokens.spacing.semantic.filter(t => t.category === cat);
+            return (
+              <div key={cat} style={{ marginBottom: 28 }}>
+                <SubTitle note={note}>{label}</SubTitle>
+                <Table
+                  headers={["Token", "Primitive mapping", "Value", "Description"]}
+                  rows={items.map(t => [
+                    <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                      <TokenTag>{t.token}</TokenTag>
+                      {t.desc?.includes("★") && <span style={{ fontSize: 11, color: "#D62872" }}>Base</span>}
+                    </div>, t.base, t.value, t.desc
+                  ])}
+                />
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {layer === "component" && (
+        <div>
+          <div style={{ fontSize: 12, color: "#666", marginBottom: 14, lineHeight: 1.6 }}>
+            This table records which semantic token each component should reference in each direction (horizontal / vertical). The same inset / container token can be shared across components and directions.
+          </div>
+          <Table
+            headers={["Component", "Direction", "Referenced token", "Notes"]}
+            rows={tokens.spacing.component.map(c => [
+              <span style={{ fontSize: 12.5 }}>{c.component}</span>,
+              <span style={{ fontSize: 12, color: "#666" }}>{c.axis}</span>,
+              <TokenTag>{c.token}</TokenTag>,
+              <span style={{ fontSize: 11.5, color: "#767676" }}>{c.note}</span>,
+            ])}
+          />
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─── SECTION: RADIUS ─────────────────────────────────────────────────────────
+function RadiusSection({ tokens, viewMode }) {
+  const [layer, setLayer] = useState("primitive");
+
+  return (
+    <div>
+      <SectionHeader title="Border Radius" desc="The primitive layer keeps the progressive radius scale; the semantic layer is split into shape and image; the component reference layer records the radius each component uses." />
+      <LayerTabs
+        tabs={[
+          { id: "primitive", label: "Primitive", count: tokens.radius.primitive.length },
+          { id: "semantic", label: "Semantic", count: tokens.radius.semantic.length },
+          { id: "component", label: "Component", count: tokens.radius.component.length },
+        ]}
+        active={layer} onChange={setLayer}
+      />
+
+      {layer === "primitive" && (
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 20 }}>
+          {tokens.radius.primitive.map(t => {
+            const r = parseInt(t.value) > 999 ? 999 : parseInt(t.value);
+            return (
+              <div key={t.token} style={{ textAlign: "center" }}>
+                <div style={{ width: 64, height: 64, background: "#FAFAFA", border: "1px solid #6F6F6F", borderRadius: Math.min(r, 32), margin: "0 auto 8px" }} />
+                <TokenTag>{t.token}</TokenTag>
+                <div style={{ fontSize: 11, color: "#767676", marginTop: 3 }}>{t.value}{t.primary ? " ★" : ""}</div>
+                {viewMode === "engineer" && <div style={{ fontSize: 10, color: "#1683E9", marginTop: 2 }}>{t.tailwind}</div>}
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {layer === "semantic" && (
+        <div>
+          {[
+            { cat: "shape", label: "Shape (standard UI component shapes)", color: "#D62872" },
+            { cat: "image", label: "Image (image / media radius)", color: "#5E6999" },
+          ].map(({ cat, label, color }) => {
+            const items = tokens.radius.semantic.filter(t => t.category === cat);
+            return (
+              <div key={cat} style={{ marginBottom: 28 }}>
+                <SubTitle>{label}</SubTitle>
+                <Table
+                  headers={["Token", "Primitive mapping", "Value", "Description"]}
+                  rows={items.map(t => [
+                    <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                      <TokenTag>{t.token}</TokenTag>
+                      {t.desc?.includes("★") && <span style={{ fontSize: 11, color: "#D62872" }}>Base</span>}
+                    </div>, t.base, t.value, t.desc
+                  ])}
+                />
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {layer === "component" && (
+        <div>
+          <div style={{ fontSize: 12, color: "#666", marginBottom: 14, lineHeight: 1.6 }}>
+            This table restores the mapping from the original PDF appendix of which radius step each component should use. That information was lost in the earlier HTML conversion and is now recorded in a standalone reference layer instead of being baked into semantic token names.
+          </div>
+          <Table
+            headers={["Component", "Referenced token", "Notes"]}
+            rows={tokens.radius.component.map(c => [
+              <span style={{ fontSize: 12.5 }}>{c.component}</span>,
+              <TokenTag>{c.token}</TokenTag>,
+              <span style={{ fontSize: 11.5, color: "#767676" }}>{c.note}</span>,
+            ])}
+          />
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─── SECTION: SHADOW ─────────────────────────────────────────────────────────
+function ShadowSection({ tokens, viewMode }) {
+  const [layer, setLayer] = useState("primitive");
+  const shadowValues = {
+    "shadow-none": "none",
+    "shadow-card": "3px 3px 10px 0px rgba(0,0,0,0.10)",
+    "shadow-md": "0px 4px 12px 0px rgba(0,0,0,0.12)",
+    "shadow-lg": "0px 8px 24px 0px rgba(0,0,0,0.14)",
+  };
+
+  return (
+    <div>
+      <SectionHeader title="Shadow / Elevation" desc="shadow-card is the diagonal shadow defined in the design file. The semantic layer uses elevation to express visual hierarchy; the component reference layer records the level each component uses." />
+      <LayerTabs
+        tabs={[
+          { id: "primitive", label: "Primitive", count: tokens.shadow.primitive.length },
+          { id: "semantic", label: "Semantic", count: tokens.shadow.semantic.length },
+          { id: "component", label: "Component", count: tokens.shadow.component.length },
+        ]}
+        active={layer} onChange={setLayer}
+      />
+
+      {layer === "primitive" && (
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 28, background: "#F5F5F5", padding: 24, borderRadius: 6 }}>
+          {tokens.shadow.primitive.map(t => (
+            <div key={t.token} style={{ textAlign: "center" }}>
+              <div style={{ width: 90, height: 68, background: "#fff", borderRadius: 8, boxShadow: shadowValues[t.token] || "none", margin: "12px auto 12px", border: t.token === "shadow-none" ? "1px solid #EDEDED" : "none" }} />
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 5 }}>
+                <TokenTag>{t.token}</TokenTag>
+                {t.design && <span style={{ fontSize: 11, color: "#D62872" }}>Design file</span>}
+              </div>
+              <div style={{ fontSize: 10, color: "#767676", marginTop: 4, maxWidth: 100, lineHeight: 1.4 }}>{t.value}</div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {layer === "semantic" && (
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 20, background: "#F5F5F5", padding: 24, borderRadius: 6 }}>
+          {tokens.shadow.semantic.map(t => (
+            <div key={t.token} style={{ textAlign: "center", width: 150 }}>
+              <div style={{ width: 110, height: 80, background: "#fff", borderRadius: 8, boxShadow: shadowValues[t.base] || "none", margin: "12px auto 10px", border: t.base === "shadow-none" ? "1px solid #EDEDED" : "none", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <span style={{ fontSize: 11, color: "#767676", fontWeight: 600 }}>{t.token.split("-")[2]}</span>
+              </div>
+              <TokenTag>{t.token.replace("elevation-surface-", "el-")}</TokenTag>
+              <div style={{ fontSize: 11, color: "#666", marginTop: 4, lineHeight: 1.4 }}>{t.usage.split(" (")[0]}</div>
+              <div style={{ fontSize: 10, color: "#767676", marginTop: 2 }}>{t.base}</div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {layer === "component" && (
+        <div>
+          <div style={{ fontSize: 12, color: "#666", marginBottom: 14, lineHeight: 1.6 }}>
+            This table records which semantic elevation token each component should reference.
+          </div>
+          <Table
+            headers={["Component", "Referenced token", "Notes"]}
+            rows={tokens.shadow.component.map(c => [
+              <span style={{ fontSize: 12.5 }}>{c.component}</span>,
+              <TokenTag>{c.token}</TokenTag>,
+              <span style={{ fontSize: 11.5, color: "#767676" }}>{c.note}</span>,
+            ])}
+          />
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─── SECTION: MOTION ─────────────────────────────────────────────────────────
+function MotionSection({ tokens, viewMode }) {
+  const [layer, setLayer] = useState("primitive");
+  const [playing, setPlaying] = useState(null);
+
+  return (
+    <div>
+      <SectionHeader title="Motion" desc="Centralizes animation durations and easing curves to keep interaction feedback consistent across the site. Click any token in the semantic layer to preview the animation." />
+      <LayerTabs
+        tabs={[
+          { id: "primitive", label: "Primitive", count: tokens.motion.primitive.length },
+          { id: "semantic", label: "Semantic", count: tokens.motion.semantic.length },
+        ]}
+        active={layer} onChange={setLayer}
+      />
+
+      {layer === "primitive" && (
+        <Table
+          headers={["Token", "Value", "Use case"]}
+          rows={tokens.motion.primitive.map(t => [
+            <TokenTag>{t.token}</TokenTag>,
+            <span style={{ fontFamily: "var(--mono)", fontSize: 12, color: "#D62872" }}>{t.value}</span>,
+            t.usage
+          ])}
+        />
+      )}
+
+      {layer === "semantic" && (
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+          {tokens.motion.semantic.map(t => (
+            <div
+              key={t.token}
+              onClick={() => setPlaying(t.token)}
+              style={{ border: "1px solid #EDEDED", borderRadius: 8, padding: "14px 16px", cursor: "pointer", background: playing === t.token ? "#FBE9F1" : "#fff", transition: "background 0.2s" }}
+            >
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 10 }}>
+                <TokenTag>{t.token}</TokenTag>
+                <span style={{ fontSize: 11, color: "#D62872" }}>▷ Click to preview</span>
+              </div>
+              <div style={{ height: 5, background: "#F2F2F2", borderRadius: 3, overflow: "hidden", marginBottom: 10 }}>
+                <div
+                  key={playing === t.token ? Date.now() : 0}
+                  style={{ height: "100%", background: "#D62872", borderRadius: 3, width: playing === t.token ? "100%" : "0%", transition: playing === t.token ? `width ${t.value}` : "none" }}
+                  onTransitionEnd={() => setPlaying(null)}
+                />
+              </div>
+              <div style={{ fontSize: 12, color: "#666" }}>{t.value}</div>
+              <div style={{ fontSize: 11, color: "#767676", marginTop: 3 }}>{t.usage}</div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─── SECTION: ZINDEX ─────────────────────────────────────────────────────────
+function ZIndexSection({ tokens, viewMode }) {
+  const [layer, setLayer] = useState("primitive");
+  const groups = ["Base", "Inside product image", "Global"];
+  const groupColors = { "Base": "#404040", "Inside product image": "#8A9E47", "Global": "#D62872" };
+
+  return (
+    <div>
+      <SectionHeader title="Z-index" desc="Split into two groups: inside the product image (app-* series, 10–90) and global shared components (100+). The two groups cannot be compared directly for stacking order. The app-* series applies only within the product image card's own stacking context." />
+      <LayerTabs
+        tabs={[
+          { id: "primitive", label: "Primitive", count: tokens.zindex.primitive.length },
+          { id: "semantic", label: "Semantic", count: tokens.zindex.semantic.length },
+        ]}
+        active={layer} onChange={setLayer}
+      />
+
+      {layer === "primitive" && (
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+          {tokens.zindex.primitive.map(t => (
+            <div key={t.token} style={{ background: "#FAFAFA", border: "1px solid #EDEDED", borderRadius: 6, padding: "8px 14px", minWidth: 80, textAlign: "center" }}>
+              <div style={{ fontSize: 20, fontWeight: 700, color: "#262626" }}>{t.value}</div>
+              <div style={{ fontSize: 10, color: "#767676", marginTop: 2 }}>{t.token}</div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {layer === "semantic" && (
+        <div>
+          <p style={{ margin: "0 0 20px", fontSize: 13, color: "#6B6B6B", lineHeight: 1.7 }}>
+            The app-* series (10–90) applies only within the product image card's own stacking context and must not be compared directly with global z values.
+          </p>
+          {groups.map(g => (
+            <div key={g} style={{ marginBottom: 24 }}>
+              <div style={{ fontSize: 13, fontWeight: 600, color: "#1A1A1A", marginBottom: 10, display: "flex", alignItems: "center", gap: 8 }}>
+                {g === "Inside product image" ? "Inside product image app-* (isolated stacking context)" : g}
+              </div>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+                {tokens.zindex.semantic.filter(t => t.group === g).map(t => (
+                  <div key={t.token} style={{ border: "1px solid #E6E6E6", background: "#fff", borderRadius: 6, padding: "8px 12px", minWidth: 150 }}>
+                    <div style={{ fontSize: 20, fontWeight: 700, color: "#1A1A1A", lineHeight: 1 }}>{t.value}</div>
+                    <TokenTag>{t.token}</TokenTag>
+                    <div style={{ fontSize: 11, color: "#666", marginTop: 4 }}>{t.usage}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─── SECTION: BUTTON ─────────────────────────────────────────────────────────
+const BUTTON_VARIANTS = [
+  {
+    label: "Buy Now", name: "Primary",
+    bg: "#DB3F81", bgPressed: "#BB2364",
+    text: "#FFFFFF", textToken: "text-color-on-dark",
+    bgToken: "button-color-primary", bgPressedToken: "button-color-primary-pressed",
+    figmaVar: "--◆Button-Pink",
+    usage: "Buy now, confirm, close",
+  },
+  {
+    label: "Cancel", name: "Secondary",
+    bg: "#E0E0E0", bgPressed: "#A8A8A8",
+    text: "#393939", textToken: "text-color-primary",
+    bgToken: "button-color-secondary", bgPressedToken: "button-color-secondary-pressed",
+    figmaVar: "--◆Button-Gray",
+    usage: "Cancel, secondary actions",
+  },
+  {
+    label: "Notify Me", name: "Notify",
+    bg: "#FF9D1B", bgPressed: "#DE7E00",
+    text: "#FFFFFF", textToken: "text-color-on-dark",
+    bgToken: "button-color-notify", bgPressedToken: "button-color-notify-pressed",
+    figmaVar: "--◆Button-Orange",
+    usage: "Notification subscription when a product is not yet available to buy",
+  },
+  {
+    label: "Add to Cart", name: "Cart",
+    bg: "#1372CB", bgPressed: "#0E5496",
+    text: "#FFFFFF", textToken: "text-color-on-dark",
+    bgToken: "button-color-cart", bgPressedToken: "button-color-cart-pressed",
+    figmaVar: "--◆Button-AddToCart",
+    usage: "Add to Cart",
+  },
+  {
+    label: "Go to Campaign", name: "Activity (Outlined)",
+    bg: "transparent", bgPressed: "#FCECF3",
+    text: "#DB3F81", textToken: "text-color-link",
+    bgToken: "white", bgPressedToken: "pink-10",
+    border: "1.5px solid #DB3F81",
+    figmaVar: "--◆Button-PinkOutline",
+    usage: "Go to campaign page (outlined style)",
+  },
+];
+
+const PILL_VARIANTS = [
+  {
+    label: "Confirm", name: "Primary",
+    bg: "#DB3F81", bgPressed: "#BB2364",
+    text: "#FFFFFF", textToken: "text-color-on-dark",
+    bgToken: "button-color-primary", bgPressedToken: "button-color-primary-pressed",
+    usage: "Alert confirm, primary action",
+  },
+  {
+    label: "Cancel", name: "Secondary (Outlined)",
+    bg: "#FFFFFF", bgPressed: "#F2F2F2",
+    text: "#DB3F81", textToken: "text-color-link",
+    bgToken: "white", bgPressedToken: "bg-color-light-grey",
+    border: "1px solid #DB3F81",
+    usage: "Alert cancel, secondary action",
+  },
+];
+
+function CSSButton({ label, bg, text, radius = 6, border, fontSize = 15, lineHeight = 20 }) {
+  return (
+    <div style={{
+      flex: "1 1 0", position: "relative", background: bg, overflow: "hidden",
+      borderRadius: radius, height: 44, display: "flex", alignItems: "center",
+      justifyContent: "center", border: border || "none", minWidth: 80, boxSizing: "border-box",
+    }}>
+      <span style={{ color: text, fontSize, fontFamily: "Microsoft JhengHei", fontWeight: 700, lineHeight: `${lineHeight}px`, textAlign: "center", padding: "12px 16px" }}>
+        {label}
+      </span>
+    </div>
+  );
+}
+
+function TokenRow({ label, token, value, color }) {
+  return (
+    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "5px 0", borderBottom: "1px solid #F2F2F2", fontSize: 12 }}>
+      <span style={{ color: "#767676", flexShrink: 0, width: 100 }}>{label}</span>
+      <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+        {color && <div style={{ width: 12, height: 12, background: color, borderRadius: 2, border: "1px solid rgba(0,0,0,0.1)", flexShrink: 0 }} />}
+        <TokenTag>{token}</TokenTag>
+      </div>
+      <span style={{ color: "#767676", fontFamily: "var(--mono)", fontSize: 11 }}>{value}</span>
+    </div>
+  );
+}
+
+function ButtonSection({ viewMode }) {
+  return (
+    <div>
+      <SectionHeader title="Button" desc="Two types: square CTA Button and Pill Button. Each has its own color tokens; both share height (44px), padding, and type specs. States are default / pressed only." />
+
+      {/* Use cases */}
+      <SubTitle>Use cases</SubTitle>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 28 }}>
+        <div style={{ border: "1px solid #EDEDED", borderRadius: 8, padding: 16 }}>
+          <div style={{ fontSize: 11, color: "#767676", fontWeight: 600, marginBottom: 12 }}>Single — Confirm (Pill style)</div>
+          <div style={{ display: "flex", gap: 8 }}>
+            <CSSButton label="Confirm" bg="#DB3F81" text="#FFFFFF" radius={9999} fontSize={17} lineHeight={22} />
+          </div>
+          <div style={{ fontSize: 12, color: "#666", marginTop: 10 }}>Pink Primary Pill, full width</div>
+        </div>
+        <div style={{ border: "1px solid #EDEDED", borderRadius: 8, padding: 16 }}>
+          <div style={{ fontSize: 11, color: "#767676", fontWeight: 600, marginBottom: 12 }}>Two — cart bottom bar</div>
+          <div style={{ display: "flex", gap: 8 }}>
+            <CSSButton label="Add to Cart" bg="#1372CB" text="#FFFFFF" />
+            <CSSButton label="Buy Now" bg="#DB3F81" text="#FFFFFF" />
+          </div>
+          <div style={{ fontSize: 12, color: "#666", marginTop: 10 }}>Blue (Cart) on the left + pink (Primary) on the right, each taking half</div>
+        </div>
+      </div>
+
+      {/* CTA Button variants */}
+      <SubTitle>CTA Button (square) — variant tokens</SubTitle>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 28 }}>
+        {BUTTON_VARIANTS.map(v => (
+          <div key={v.name} style={{ border: "1px solid #EDEDED", borderRadius: 8, overflow: "hidden" }}>
+            <div style={{ padding: "12px 16px", borderBottom: "1px solid #F2F2F2", background: "#FAFAFA" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <span style={{ fontSize: 13, fontWeight: 600, color: "#404040" }}>{v.name}</span>
+                {viewMode === "engineer" && <span style={{ fontSize: 10, color: "#767676", fontFamily: "var(--mono)" }}>{v.figmaVar}</span>}
+              </div>
+              <div style={{ fontSize: 11, color: "#767676", marginTop: 2 }}>{v.usage}</div>
+            </div>
+            <div style={{ padding: 16 }}>
+              <div style={{ display: "flex", gap: 8, marginBottom: 16 }}>
+                <div style={{ flex: 1, textAlign: "center" }}>
+                  <CSSButton label={v.label} bg={v.bg} text={v.text} border={v.border} />
+                  <div style={{ fontSize: 11, color: "#767676", marginTop: 6 }}>default</div>
+                </div>
+                <div style={{ flex: 1, textAlign: "center" }}>
+                  <CSSButton label={v.label} bg={v.bgPressed} text={v.text} border={v.border} />
+                  <div style={{ fontSize: 11, color: "#767676", marginTop: 6 }}>pressed</div>
+                </div>
+              </div>
+              <TokenRow label="Background default" token={v.bgToken} value={v.bg} color={v.bg === "transparent" ? undefined : v.bg} />
+              <TokenRow label="Background pressed" token={v.bgPressedToken} value={v.bgPressed} color={v.bgPressed === "transparent" ? undefined : v.bgPressed} />
+              <TokenRow label="Text color" token={v.textToken} value={v.text} color={v.text === "#FFFFFF" ? "#D62872" : v.text} />
+              <TokenRow label="Typography" token="body-02" value="15/20/700" />
+              <TokenRow label="Radius" token="shape-03" value="6px" />
+              <TokenRow label="Horizontal padding" token="inset-03" value="16px" />
+              <TokenRow label="Vertical padding" token="inset-02" value="12px" />
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Pill Button */}
+      <SubTitle>Pill Button (capsule) — variant tokens</SubTitle>
+      <div style={{ border: "1px solid #EDEDED", borderRadius: 8, padding: 16, marginBottom: 20 }}>
+        <div style={{ fontSize: 11, color: "#767676", fontWeight: 600, marginBottom: 12 }}>Context preview — bottom of Alert / Dialog, Cancel left, Confirm right</div>
+        <div style={{ display: "flex", gap: 8 }}>
+          <CSSButton label="Cancel" bg="#FFFFFF" text="#DB3F81" radius={9999} border="1px solid #DB3F81" fontSize={17} lineHeight={22} />
+          <CSSButton label="Confirm" bg="#DB3F81" text="#FFFFFF" radius={9999} fontSize={17} lineHeight={22} />
+        </div>
+      </div>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+        {PILL_VARIANTS.map(v => (
+          <div key={v.name} style={{ border: "1px solid #EDEDED", borderRadius: 8, overflow: "hidden" }}>
+            <div style={{ padding: "12px 16px", borderBottom: "1px solid #F2F2F2", background: "#FAFAFA" }}>
+              <div style={{ fontSize: 13, fontWeight: 600, color: "#404040" }}>{v.name}</div>
+              <div style={{ fontSize: 11, color: "#767676", marginTop: 2 }}>{v.usage}</div>
+            </div>
+            <div style={{ padding: 16 }}>
+              <div style={{ display: "flex", gap: 8, marginBottom: 16 }}>
+                <div style={{ flex: 1, textAlign: "center" }}>
+                  <CSSButton label={v.label} bg={v.bg} text={v.text} radius={9999} border={v.border} fontSize={17} lineHeight={22} />
+                  <div style={{ fontSize: 11, color: "#767676", marginTop: 6 }}>default</div>
+                </div>
+                <div style={{ flex: 1, textAlign: "center" }}>
+                  <CSSButton label={v.label} bg={v.bgPressed} text={v.text} radius={9999} border={v.border} fontSize={17} lineHeight={22} />
+                  <div style={{ fontSize: 11, color: "#767676", marginTop: 6 }}>pressed</div>
+                </div>
+              </div>
+              <TokenRow label="Background default" token={v.bgToken} value={v.bg} color={v.bg === "#FFFFFF" ? "#EDEDED" : v.bg} />
+              <TokenRow label="Background pressed" token={v.bgPressedToken} value={v.bgPressed} />
+              <TokenRow label="Text color" token={v.textToken} value={v.text} color={v.text === "#FFFFFF" ? "#D62872" : v.text} />
+              <TokenRow label="Typography" token="heading-01" value="17/22/700" />
+              <TokenRow label="Radius" token="shape-06" value="9999px" />
+              <TokenRow label="Horizontal padding" token="inset-03" value="16px" />
+              <TokenRow label="Vertical padding" token="inset-02" value="12px" />
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+// ─── SECTION: CHIP ───────────────────────────────────────────────────────────
+const CHIP_STATES = [
+  {
+    state: "default", label: "Default",
+    bg: "#F4F4F4", text: "#393939",
+    bgToken: "bg-color-light-grey", textToken: "text-color-primary",
+    figmaVar: "--◆Fill-LightGray / --◆Text-Primary",
+  },
+  {
+    state: "selected", label: "Selected",
+    bg: "#DB3F81", text: "#FFFFFF",
+    bgToken: "button-color-primary", textToken: "text-color-on-dark",
+    figmaVar: "--◆Button-Pink / --◆Text-White",
+  },
+  {
+    state: "disabled", label: "Unavailable",
+    bg: "#F4F4F4", text: "#A8A8A8",
+    bgToken: "gray-10 (bg-color-disabled to be added)", textToken: "gray-40",
+    figmaVar: "--Black-70-EDEDED / --◆Text-Tertiary",
+    warning: true,
+  },
+];
+
+function ChipDemo({ stateObj, label = "Lazy Weekend" }) {
+  return (
+    <div style={{
+      display: "inline-flex", alignItems: "center", justifyContent: "center",
+      padding: "4px 8px", background: stateObj.bg, borderRadius: 6,
+      gap: 10, cursor: stateObj.state === "disabled" ? "not-allowed" : "pointer",
+    }}>
+      <span style={{
+        color: stateObj.text, fontSize: 15, fontFamily: "Microsoft JhengHei",
+        fontWeight: 400, lineHeight: "20px",
+      }}>{label}</span>
+    </div>
+  );
+}
+
+function ChipSection({ viewMode }) {
+  const labels = ["Lazy Weekend", "Slightly Tipsy", "Flower Market", "Spring Park", "Beach Walk"];
+
+  return (
+    <div>
+      <SectionHeader title="Chip"
+        desc="Single-select Chip for choosing product specs. Three states: default, selected, unavailable. Font weight is regular (not bold) to distinguish it from Button's bold. No icon." />
+
+      {/* Use cases */}
+      <SubTitle>Use cases</SubTitle>
+      <div style={{ border: "1px solid #EDEDED", borderRadius: 8, padding: 20, marginBottom: 24 }}>
+        <div style={{ fontSize: 11, color: "#767676", fontWeight: 600, marginBottom: 14 }}>Context preview — product spec selection (product detail page)</div>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+          <ChipDemo stateObj={CHIP_STATES[1]} label="Lazy Weekend" />
+          <ChipDemo stateObj={CHIP_STATES[0]} label="Slightly Tipsy" />
+          <ChipDemo stateObj={CHIP_STATES[0]} label="Flower Market" />
+          <ChipDemo stateObj={CHIP_STATES[2]} label="Spring Park" />
+          <ChipDemo stateObj={CHIP_STATES[0]} label="Beach Walk" />
+          <ChipDemo stateObj={CHIP_STATES[0]} label="Orchard Picking" />
+          <ChipDemo stateObj={CHIP_STATES[0]} label="Bubble Bath" />
+          <ChipDemo stateObj={CHIP_STATES[2]} label="Orchard Picking" />
+        </div>
+        <div style={{ fontSize: 12, color: "#666", marginTop: 12 }}>The first is selected; the fainter ones on the right are unavailable</div>
+      </div>
+
+      {/* Three states */}
+      <SubTitle>States</SubTitle>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 16, marginBottom: 24 }}>
+        {CHIP_STATES.map(s => (
+          <div key={s.state} style={{ border: `1px solid ${s.warning ? "#FFE999" : "#EDEDED"}`, borderRadius: 8, overflow: "hidden" }}>
+            <div style={{ padding: "12px 16px", borderBottom: "1px solid #F2F2F2", background: s.warning ? "#FFF9E5" : "#FAFAFA" }}>
+              <div style={{ fontSize: 13, fontWeight: 600, color: "#404040" }}>{s.label}</div>
+              {viewMode === "engineer" && <div style={{ fontSize: 10, color: "#767676", fontFamily: "var(--mono)", marginTop: 2 }}>{s.figmaVar}</div>}
+            </div>
+            <div style={{ padding: 16 }}>
+              <div style={{ display: "flex", justifyContent: "center", marginBottom: 16 }}>
+                <ChipDemo stateObj={s} label="Lazy Weekend" />
+              </div>
+              {s.warning && (
+                <div style={{ fontSize: 11, color: "#BB7711", background: "#FFF4E5", borderRadius: 4, padding: "4px 8px", marginBottom: 10 }}>
+                  bg-color-disabled semantic token to be added
+                </div>
+              )}
+              <TokenRow label="Background" token={s.bgToken} value={s.bg} color={s.bg} />
+              <TokenRow label="Text color" token={s.textToken} value={s.text} color={s.text === "#FFFFFF" ? "#D62872" : s.text} />
+              <TokenRow label="Typography" token="body-01" value="15/20/400" />
+              <TokenRow label="Radius" token="shape-03" value="6px" />
+              <TokenRow label="Horizontal padding" token="inset-01" value="8px" />
+              <TokenRow label="Vertical padding" token="spacing-01" value="4px (was 5px; aligned to the 4px grid)" />
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Missing token note */}
+      <div style={{ background: "#FFF9E5", border: "1px solid #FFE999", borderRadius: 8, padding: "14px 18px", marginBottom: 32 }}>
+        <div style={{ fontWeight: 600, fontSize: 13, color: "#8C590D", marginBottom: 4 }}>Token gap — recommended for phase 3</div>
+        <div style={{ fontSize: 13, color: "#8C590D", lineHeight: 1.7 }}>
+          • <strong>bg-color-disabled</strong> (#F4F4F4): the disabled background currently references primitive gray-10 and has no matching semantic token
+        </div>
+      </div>
+
+      {/* Filter Chip */}
+      <div style={{ borderTop: "2px solid #EDEDED", paddingTop: 28, marginBottom: 8 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
+          <h2 style={{ margin: 0, fontSize: 22, fontWeight: 700, color: "#262626" }}>Filter Chip</h2>
+          <span style={{ background: "#1683E918", color: "#1683E9", fontSize: 11, fontWeight: 600, padding: "2px 8px", borderRadius: 20, border: "1px solid #1683E930" }}>Variant</span>
+        </div>
+        <p style={{ margin: "0 0 24px", fontSize: 14, color: "#666", lineHeight: 1.6 }}>Outlined Chip used for selecting filter criteria (PLP). The background is always white; the selected state is expressed through outline and text color changes, with a check badge in the bottom-right corner. Height 32px.</p>
+      </div>
+
+      <SubTitle>Use cases</SubTitle>
+      <div style={{ border: "1px solid #EDEDED", borderRadius: 8, padding: 20, marginBottom: 24 }}>
+        <div style={{ fontSize: 11, color: "#767676", fontWeight: 600, marginBottom: 14 }}>Context preview — product list filters (PLP)</div>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+          <FilterChipComponent selected={true} label="Includes mo Store+ items" />
+          <FilterChipComponent selected={false} label="Mega Subsidy" />
+          <FilterChipComponent selected={false} label="moPro Members" />
+          <FilterChipComponent selected={true} label="Free Shipping" />
+        </div>
+      </div>
+
+      <SubTitle>States</SubTitle>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 24 }}>
+        {[
+          { label: "Unselected", selected: false, borderToken: "border-color-default", borderValue: "#F4F4F4", textToken: "text-color-primary", textValue: "#393939" },
+          { label: "Selected", selected: true, borderToken: "button-color-primary", borderValue: "#DB3F81", textToken: "button-color-primary", textValue: "#DB3F81" },
+        ].map(s => (
+          <div key={s.label} style={{ border: "1px solid #EDEDED", borderRadius: 8, overflow: "hidden" }}>
+            <div style={{ padding: "12px 16px", borderBottom: "1px solid #F2F2F2", background: "#FAFAFA" }}>
+              <span style={{ fontSize: 13, fontWeight: 600, color: "#404040" }}>{s.label}</span>
+            </div>
+            <div style={{ padding: 16 }}>
+              <div style={{ display: "flex", justifyContent: "center", marginBottom: 16 }}>
+                <FilterChipComponent selected={s.selected} label="Includes mo Store+ items" />
+              </div>
+              <TokenRow label="Background" token="bg-color-white" value="#FFFFFF" color="#EDEDED" />
+              <TokenRow label="Outline" token={s.borderToken} value={s.borderValue} color={s.borderValue} />
+              <TokenRow label="Text color" token={s.textToken} value={s.textValue} color={s.textValue} />
+              <TokenRow label="Typography" token="body-01" value="15/20/400" />
+              <TokenRow label="Radius" token="shape-03" value="6px" />
+              <TokenRow label="Horizontal padding" token="inset-02" value="12px (was 10px; aligned to the 4px grid)" />
+              <TokenRow label="Height" token="—" value="32px (fixed)" />
+              {s.selected && <TokenRow label="Badge background" token="button-color-primary" value="#DB3F81" color="#DB3F81" />}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <SubTitle>Chip vs Filter Chip differences</SubTitle>
+      <Table
+        headers={["Property", "Chip", "Filter Chip"]}
+        rows={[
+          ["Height", "30px", "32px"],
+          ["Background (unselected)", "#F2F2F2", "#FFFFFF"],
+          ["Selected indication", "Background fill", "Outline + text color + badge"],
+          ["Weight", "400 regular", "400 regular"],
+          ["Horizontal padding", "8px", "10px"],
+          ["Use case", "Product spec selection (PDP)", "Filter criteria (PLP)"],
+        ].map(r => r.map((c, i) => i === 0
+          ? <span style={{ fontSize: 13, fontWeight: 600, color: "#404040" }}>{c}</span>
+          : <span style={{ fontSize: 13, color: "#666" }}>{c}</span>
+        ))}
+      />
+    </div>
+  );
+}
+
+// ─── SECTION: STEPPER ────────────────────────────────────────────────────────
+function StepperButton({ side, disabled }) {
+  const radius = side === "minus"
+    ? "2px 0 0 2px"
+    : "0 2px 2px 0";
+  const iconColor = disabled ? "#E6E6E6" : "#CCCCCC";
+
+  return (
+    <div style={{
+      width: 30, height: 30, background: "#F2F2F2",
+      borderRadius: radius, display: "flex",
+      alignItems: "center", justifyContent: "center",
+      flexShrink: 0, cursor: disabled ? "not-allowed" : "pointer",
+    }}>
+      {side === "minus" ? (
+        <div style={{ width: 13, height: 2, background: iconColor, borderRadius: 1 }} />
+      ) : (
+        <div style={{ position: "relative", width: 13, height: 13 }}>
+          <div style={{ position: "absolute", top: "50%", left: 0, width: 13, height: 2, background: iconColor, borderRadius: 1, transform: "translateY(-50%)" }} />
+          <div style={{ position: "absolute", left: "50%", top: 0, width: 2, height: 13, background: iconColor, borderRadius: 1, transform: "translateX(-50%)" }} />
+        </div>
+      )}
+    </div>
+  );
+}
+
+function StepperSection({ viewMode }) {
+  return (
+    <div>
+      <SectionHeader title="Stepper"
+        desc="Quantity plus/minus control, used on the PDP product detail page. One 30×30px button on each side with the number in the middle. Asymmetric corner radii make the two buttons read as one unit." />
+
+      {/* Use cases */}
+      <SubTitle>Use cases</SubTitle>
+      <div style={{ border: "1px solid #EDEDED", borderRadius: 8, padding: 20, marginBottom: 24 }}>
+        <div style={{ fontSize: 11, color: "#767676", fontWeight: 600, marginBottom: 14 }}>Context preview — PDP purchase quantity (quantity is 1, minus is disabled)</div>
+        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          <span style={{ fontSize: 15, color: "#404040" }}>Quantity</span>
+          <span style={{ fontSize: 13, color: "#767676" }}>Limit per order</span>
+          <span style={{ fontSize: 15, color: "#D62872", fontWeight: 700 }}>1</span>
+          <span style={{ fontSize: 13, color: "#767676" }}>sets</span>
+          <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 12 }}>
+            <StepperButton side="minus" disabled={true} />
+            <span style={{ fontSize: 15, color: "#404040", fontFamily: "Century Gothic, Arial", fontWeight: 400, minWidth: 16, textAlign: "center" }}>1</span>
+            <StepperButton side="plus" disabled={false} />
+          </div>
+        </div>
+      </div>
+
+      {/* States */}
+      <SubTitle>States</SubTitle>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 24 }}>
+        {[
+          { label: "Default (Plus / actionable)", side: "plus", disabled: false, stateLabel: "default", bgToken: "bg-color-light-grey", iconToken: "gray-30", iconValue: "#C6C6C6" },
+          { label: "Disabled (Minus at minimum value)", side: "minus", disabled: true, stateLabel: "disabled", bgToken: "bg-color-light-grey", iconToken: "gray-20", iconValue: "#E0E0E0" },
+        ].map(s => (
+          <div key={s.stateLabel} style={{ border: "1px solid #EDEDED", borderRadius: 8, overflow: "hidden" }}>
+            <div style={{ padding: "12px 16px", borderBottom: "1px solid #F2F2F2", background: "#FAFAFA" }}>
+              <div style={{ fontSize: 13, fontWeight: 600, color: "#404040" }}>{s.label}</div>
+            </div>
+            <div style={{ padding: 16 }}>
+              <div style={{ display: "flex", justifyContent: "center", marginBottom: 16 }}>
+                <StepperButton side={s.side} disabled={s.disabled} />
+              </div>
+              <TokenRow label="Background" token={s.bgToken} value="#F2F2F2" color="#F2F2F2" />
+              <TokenRow label="Icon color" token={s.iconToken} value={s.iconValue} color={s.iconValue} />
+              <TokenRow label="Size" token="—" value="30×30px (fixed)" />
+              <TokenRow label="Radius (minus)" token="shape-01 left" value="2px 0 0 2px" />
+              <TokenRow label="Radius (plus)" token="shape-01 right" value="0 2px 2px 0" />
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Number display */}
+      <SubTitle>Number display</SubTitle>
+      <div style={{ border: "1px solid #EDEDED", borderRadius: 8, padding: 16, marginBottom: 24 }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12, marginBottom: 16 }}>
+          <StepperButton side="minus" disabled={true} />
+          <span style={{ fontSize: 15, color: "#404040", fontFamily: "Century Gothic, Arial", minWidth: 24, textAlign: "center" }}>1</span>
+          <StepperButton side="plus" disabled={false} />
+        </div>
+        <TokenRow label="Typography" token="number-01" value="15/20/400" />
+        <TokenRow label="Typeface" token="text-family-number" value="Century Gothic" />
+        <TokenRow label="Text color" token="text-color-primary" value="#404040" />
+      </div>
+    </div>
+  );
+}
+
+// ─── SECTION: FILTER CHIP ────────────────────────────────────────────────────
+function FilterChipComponent({ selected, label = "Includes mo Store+ items" }) {
+  return (
+    <div style={{
+      position: "relative", display: "inline-flex", alignItems: "center",
+      justifyContent: "center", gap: 10, height: 32, minWidth: 80,
+      padding: "0 12px", background: "#FFFFFF", borderRadius: 6,
+      outline: `1px solid ${selected ? "#DB3F81" : "#F4F4F4"}`,
+      outlineOffset: -1, boxSizing: "border-box", cursor: "pointer",
+      overflow: "hidden",
+    }}>
+      <span style={{
+        fontSize: 15, fontFamily: "Microsoft JhengHei", fontWeight: 400,
+        lineHeight: "20px", color: selected ? "#DB3F81" : "#393939",
+        textAlign: "center", whiteSpace: "nowrap",
+      }}>{label}</span>
+      {selected && (
+        <div style={{ position: "absolute", left: 103, top: 20, width: 12, height: 12 }}>
+          {/* Pink background, rounded bottom-right corner only (rounded-br-sm) */}
+          <div style={{
+            position: "absolute", left: 0, top: 0,
+            width: 12, height: 12,
+            background: "#DB3F81",
+            borderRadius: "0 0 4px 0",
+          }} />
+          {/* White check mark 5×4px, left:5 top:6 */}
+          <div style={{
+            position: "absolute", left: 5, top: 6,
+            width: 5, height: 4,
+            background: "white",
+          }} />
+        </div>
+      )}
+    </div>
+  );
+}
+
+
+// ─── ADMIN PANEL ─────────────────────────────────────────────────────────────
+function AdminPanel({ tokens, onUpdate, onClose }) {
+  const [section, setSection] = useState("color");
+  const [layer, setLayer] = useState("semantic");
+  const [editIdx, setEditIdx] = useState(null);
+  const [editData, setEditData] = useState({});
+  const [saveMsg, setSaveMsg] = useState("");
+
+  const current = tokens[section]?.[layer] || [];
+  const fields = current[0] ? Object.keys(current[0]) : [];
+
+  function startEdit(i) {
+    setEditIdx(i);
+    setEditData({ ...current[i] });
+  }
+
+  function saveEdit() {
+    const updated = { ...tokens };
+    updated[section][layer][editIdx] = { ...editData };
+    onUpdate(updated);
+    setEditIdx(null);
+    setSaveMsg("Saved ✓");
+    setTimeout(() => setSaveMsg(""), 2000);
+  }
+
+  return (
+    <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)", zIndex: 9999, display: "flex", alignItems: "flex-end", justifyContent: "flex-end" }}>
+      <div style={{ width: 680, height: "100vh", background: "#fff", boxShadow: "0px 8px 24px rgba(0,0,0,0.14)", display: "flex", flexDirection: "column" }}>
+        <div style={{ padding: "20px 24px", borderBottom: "1px solid #EDEDED", display: "flex", justifyContent: "space-between", alignItems: "center", background: "#262626" }}>
+          <div>
+            <div style={{ color: "#fff", fontWeight: 700, fontSize: 16 }}>Admin</div>
+            <div style={{ color: "#767676", fontSize: 12, marginTop: 2 }}>Token editor</div>
+          </div>
+          <button onClick={onClose} style={{ background: "none", border: "none", color: "#fff", fontSize: 20, cursor: "pointer" }}>✕</button>
+        </div>
+
+        <div style={{ padding: "16px 24px", borderBottom: "1px solid #EDEDED", display: "flex", gap: 8, flexWrap: "wrap" }}>
+          {["color","typography","spacing","radius","shadow","motion","zindex"].map(s => (
+            <button key={s} onClick={() => { setSection(s); setLayer("semantic"); setEditIdx(null); }}
+              style={{ padding: "6px 14px", borderRadius: 6, border: "1px solid", borderColor: section === s ? "#D62872" : "#EDEDED", background: section === s ? "#D62872" : "#fff", color: section === s ? "#fff" : "#404040", fontSize: 12, cursor: "pointer", fontWeight: section === s ? 600 : 400 }}>
+              {s}
+            </button>
+          ))}
+          <div style={{ display: "flex", gap: 4, marginLeft: "auto" }}>
+            {["primitive","semantic"].map(l => (
+              <button key={l} onClick={() => { setLayer(l); setEditIdx(null); }}
+                style={{ padding: "6px 14px", borderRadius: 6, border: "1px solid", borderColor: layer === l ? "#404040" : "#EDEDED", background: layer === l ? "#404040" : "#fff", color: layer === l ? "#fff" : "#404040", fontSize: 12, cursor: "pointer" }}>
+                {l === "primitive" ? "Primitive" : "Semantic"}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {saveMsg && (
+          <div style={{ background: "#EBFAEA", color: "#269B24", padding: "8px 24px", fontSize: 13, fontWeight: 600 }}>{saveMsg}</div>
+        )}
+
+        <div style={{ flex: 1, overflow: "auto", padding: "16px 24px" }}>
+          {current.map((row, i) => (
+            <div key={i} style={{ border: "1px solid #EDEDED", borderRadius: 6, padding: "12px 14px", marginBottom: 8, background: editIdx === i ? "#FBE9F1" : "#fff" }}>
+              {editIdx === i ? (
+                <div>
+                  {fields.map(f => (
+                    <div key={f} style={{ marginBottom: 8 }}>
+                      <label style={{ fontSize: 11, color: "#767676", display: "block", marginBottom: 3, fontWeight: 600 }}>{f}</label>
+                      <input
+                        value={editData[f] || ""}
+                        onChange={e => setEditData({ ...editData, [f]: e.target.value })}
+                        style={{ width: "100%", padding: "6px 10px", border: "1px solid #D62872", borderRadius: 4, fontSize: 13, boxSizing: "border-box", outline: "none" }}
+                      />
+                    </div>
+                  ))}
+                  <div style={{ display: "flex", gap: 8, marginTop: 12 }}>
+                    <button onClick={saveEdit} style={{ padding: "8px 20px", background: "#D62872", color: "#fff", border: "none", borderRadius: 6, cursor: "pointer", fontSize: 13, fontWeight: 600 }}>Save</button>
+                    <button onClick={() => setEditIdx(null)} style={{ padding: "8px 16px", background: "#F2F2F2", color: "#404040", border: "none", borderRadius: 6, cursor: "pointer", fontSize: 13 }}>Cancel</button>
+                  </div>
+                </div>
+              ) : (
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <div>
+                    <code style={{ fontSize: 12, color: "#D62872", fontFamily: "var(--mono)" }}>{row.token}</code>
+                    {row.value && <span style={{ fontSize: 12, color: "#767676", marginLeft: 10 }}>{row.value}</span>}
+                    {row.usage && <div style={{ fontSize: 11, color: "#767676", marginTop: 2 }}>{row.usage}</div>}
+                  </div>
+                  <button onClick={() => startEdit(i)} style={{ padding: "5px 12px", border: "1px solid #EDEDED", borderRadius: 4, background: "#fff", color: "#404040", fontSize: 12, cursor: "pointer", whiteSpace: "nowrap" }}>Edit</button>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── MAIN APP ─────────────────────────────────────────────────────────────────
+function App() {
+  const [activeSection, setActiveSection] = useState("overview");
+  const [viewMode, setViewMode] = useState("designer");
+  const [showAdmin, setShowAdmin] = useState(false);
+  const [tokens, setTokens] = useState(INITIAL_TOKENS);
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    async function loadData() {
+      try {
+        const r = await window.storage.get("momo-tokens");
+        if (r?.value) setTokens(JSON.parse(r.value));
+      } catch (_) {}
+      setLoaded(true);
+    }
+    loadData();
+  }, []);
+
+  const handleUpdate = useCallback(async (updated) => {
+    setTokens(updated);
+    try {
+      await window.storage.set("momo-tokens", JSON.stringify(updated));
+    } catch (_) {}
+  }, []);
+
+  if (!loaded) return <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100vh", color: "#767676", fontSize: 14 }}>Loading...</div>;
+
+  const renderSection = () => {
+    switch (activeSection) {
+      case "overview": return <OverviewSection tokens={tokens} onNavigate={setActiveSection} />;
+      case "color": return <ColorSection tokens={tokens} viewMode={viewMode} />;
+      case "typography": return <TypographySection tokens={tokens} viewMode={viewMode} />;
+      case "spacing": return <SpacingSection tokens={tokens} viewMode={viewMode} />;
+      case "radius": return <RadiusSection tokens={tokens} viewMode={viewMode} />;
+      case "shadow": return <ShadowSection tokens={tokens} viewMode={viewMode} />;
+      case "motion": return <MotionSection tokens={tokens} viewMode={viewMode} />;
+      case "zindex": return <ZIndexSection tokens={tokens} viewMode={viewMode} />;
+      case "button": return <ButtonSection viewMode={viewMode} />;
+      case "chip": return <ChipSection viewMode={viewMode} />;
+      case "stepper": return <StepperSection viewMode={viewMode} />;
+      default: return null;
+    }
+  };
+
+  const current = NAV.find(n => n.id === activeSection);
+  const groupLabel = current?.group === "component" ? "Components" : "Foundation";
+
+  return (
+    <div className="app-shell" style={{ display: "flex", height: "100vh", background: "#fff", color: "#1A1A1A" }}>
+      {/* SIDEBAR */}
+      <aside className="app-sidebar" style={{ width: 232, background: "#FAFAFA", borderRight: "1px solid #E6E6E6", display: "flex", flexDirection: "column", flexShrink: 0 }}>
+        <div style={{ padding: "22px 20px 14px" }}>
+          <img src="img/logo.png" alt="momo" onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = LOGO_FALLBACK; }} style={{ display: "block", height: 30, width: "auto" }} />
+          <div style={{ fontSize: 13, fontWeight: 600, color: "#1A1A1A", marginTop: 10 }}>Design System Design Tokens</div>
+          <div style={{ fontSize: 12, color: "#767676", marginTop: 4 }}>v1.0 (2026.06)</div>
+        </div>
+        <nav className="app-nav" aria-label="Sections" style={{ flex: 1, padding: "4px 12px 12px", overflowY: "auto" }}>
+          {[["foundation", "Foundation"], ["component", "Components"]].map(([g, label]) => (
+            <div key={g} style={{ marginBottom: 16 }}>
+              <div className="app-nav-label" style={{ fontSize: 12, color: "#767676", padding: "8px 10px 6px" }}>{label}</div>
+              {NAV.filter(n => n.group === g).map(n => (
+                <button
+                  key={n.id}
+                  className="nav-item"
+                  onClick={() => setActiveSection(n.id)}
+                  aria-current={activeSection === n.id ? "page" : undefined}
+                  style={{ display: "block", width: "100%", textAlign: "left", padding: "7px 10px", marginBottom: 1, borderRadius: 4, border: "none", background: "transparent", color: "#404040", cursor: "pointer", fontSize: 13 }}
+                >
+                  {n.label}
+                </button>
+              ))}
+            </div>
+          ))}
+        </nav>
+        <div className="app-sidebar-foot" style={{ padding: 12, borderTop: "1px solid #E6E6E6" }}>
+          <button onClick={() => setShowAdmin(true)}
+            style={{ width: "100%", padding: "8px 12px", borderRadius: 4, background: "#fff", color: "#404040", border: "1px solid #D9D9D9", cursor: "pointer", fontSize: 13 }}>
+            Admin
+          </button>
+        </div>
+      </aside>
+
+      {/* MAIN */}
+      <div className="app-main" style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden", minWidth: 0 }}>
+        <div className="app-topbar" style={{ height: 56, padding: "0 40px", borderBottom: "1px solid #E6E6E6", display: "flex", alignItems: "center", justifyContent: "space-between", flexShrink: 0, background: "#fff" }}>
+          <div style={{ fontSize: 13, color: "#767676" }}>
+            {groupLabel} / <span style={{ color: "#1A1A1A", fontWeight: 600 }}>{current?.label}</span>
+          </div>
+          <div role="group" aria-label="View mode" style={{ display: "flex", background: "#F2F2F2", borderRadius: 6, padding: 2, gap: 2 }}>
+            {[["designer", "Designer"], ["engineer", "Engineer"]].map(([mode, label]) => (
+              <button key={mode} className="seg-btn" onClick={() => setViewMode(mode)} aria-pressed={viewMode === mode}
+                style={{ padding: "5px 14px", borderRadius: 4, border: "none", cursor: "pointer", fontSize: 12, fontWeight: viewMode === mode ? 600 : 400,
+                  background: viewMode === mode ? "#fff" : "transparent",
+                  color: viewMode === mode ? "#1A1A1A" : "#767676",
+                  boxShadow: viewMode === mode ? "0 0 0 1px #E6E6E6" : "none" }}>
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <main className="app-content" style={{ flex: 1, overflow: "auto", padding: "40px 40px 80px" }}>
+          <div style={{ maxWidth: 1040, margin: "0 auto" }}>
+            {renderSection()}
+          </div>
+        </main>
+      </div>
+
+      {showAdmin && <AdminPanel tokens={tokens} onUpdate={handleUpdate} onClose={() => setShowAdmin(false)} />}
+    </div>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(<App />);
+</script>
+</body>
+</html>
